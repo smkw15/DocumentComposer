@@ -1,0 +1,5 @@
+.vscode
+env
+docs/src/**/*.txt
+docs/dest/**/*.docx
+*pyc
