@@ -1,0 +1,8 @@
+[flake8]
+ignore = D400,D415
+max-line-length = 160
+exclude = .git,__pycache__,docs,*md,env
+docstring-convention=google
+
+# D415: 文の末尾のピリオドの指定。日本人のコメントを想定しているので無視。
+# E501: 行長制限。既定の80文字は短いので2倍にしておく。
