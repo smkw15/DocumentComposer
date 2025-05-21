@@ -1,6 +1,6 @@
-# conv-docx-txt
+# conv-txt-to-docx
 
-conv-docx-txtは、txtファイルをdocxファイルに変換するPythonスクリプトです。英文法的には`convert txt file to docx file`なのでリポジトリ名を思いっきり間違えているのだが、時すでに遅し。
+conv-txt-to-docxは、txtファイルをdocxファイルに変換するPythonスクリプトです。
 
 ## 環境
 
@@ -39,7 +39,7 @@ deactivate
 
 ## 動作仕様
 
-- `conv-docx-txt`は、入力元ディレクトリに存在するtxtファイルを再帰的に検索し、読み込みます。
+- `conv-txt-to-doc`は、入力元ディレクトリに存在するtxtファイルを再帰的に検索し、読み込みます。
 - 読み込まれた文字列は、1行=1段落として出力先ディレクトリに1つのdocxファイルとして出力されます。
 
 ## 使い方
