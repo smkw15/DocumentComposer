@@ -93,13 +93,13 @@ def main():
     """メイン処理"""
     # 対象ファイルの検索
     src_file_pathes = _find_txt_file(SRC_DIR_PATH)
-    print("loaded:", src_file_pathes)
+    print("# loaded:", "\n" + "\n".join(src_file_pathes))
     # 対象ファイルの内容を集積
     lines: list[str] = reduce(lambda lst, src_file_path: lst + FILE_SEPARATOR + _read_txt_file(src_file_path), src_file_pathes, list[str]())
     lines = lines[len(FILE_SEPARATOR):]  # 最初に余計なファイルセパレータが混じるので消す
     # docxに書き込み
     dest_file_path = _write_docx_file(DEST_DIR_PATH, DEST_FILE_NAME, lines)
-    print("created:", dest_file_path)
+    print("# created:", dest_file_path)
 
 
 if __name__ == "__main__":
