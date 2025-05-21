@@ -7,6 +7,7 @@ conv-txt-to-docxは、txtファイルをdocxファイルに変換するPythonス
 - 開発環境: Windows
 - Python 3.10.6
 - VSCode
+- flake8
 
 ## 環境構築方法
 

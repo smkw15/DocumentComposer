@@ -1,9 +1,11 @@
+"""定数モジュール。"""
+
 # ディレクトリ名・ファイル名
 SRC_DIR_PATH = ".\\docs\\src"
 DEST_DIR_PATH = ".\\docs\\dest"
 DEST_FILE_NAME = "__all_in_one__.docx"
 
-# コンポーズ規則
+# 文字列結合規則
 FILE_SEPARATOR = ['', "＊", '']  # default:['', "＊", '']
 
 # ドキュメントのスタイル
