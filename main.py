@@ -21,8 +21,8 @@ from constants import (
   BOTTOM_MARGIN_MM,
   HEADER_DISTANCE_MM,
   FOOTER_DISTANCE_MM,
-  SRC_NEWLINE,
-  SRC_ENCODIG,
+  NEWLINE,
+  ENCODIG,
 )
 
 def _find_txt_file(dir_path: str):
@@ -32,8 +32,8 @@ def _find_txt_file(dir_path: str):
 
 def _read_txt_file(file_path: str) -> list[str]:
   """txtファイル読み込み"""
-  with open(file_path, mode="r", encoding=SRC_ENCODIG, newline=SRC_NEWLINE) as f:
-    return f.read().strip(SRC_NEWLINE).split(SRC_NEWLINE)  # ファイルの先頭と末尾にある改行はトリム
+  with open(file_path, mode="r", encoding=ENCODIG, newline=NEWLINE) as f:
+    return f.read().strip(NEWLINE).split(NEWLINE)  # ファイルの先頭と末尾にある改行はトリム
 
 def _write_docx_file(dir_path: str, file_name: str, lines: list[str]) -> str:
   """docxファイル書き込み"""

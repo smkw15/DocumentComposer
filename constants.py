@@ -24,5 +24,5 @@ HEADER_DISTANCE_MM = 19.0  # default:12.7
 FOOTER_DISTANCE_MM = 19.0  # default:12.7
 
 # 一般規則
-SRC_NEWLINE = "\r\n"
-SRC_ENCODIG = "utf-8"
+ENCODIG = "utf-8"
+NEWLINE = "\r\n"
