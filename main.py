@@ -22,7 +22,7 @@ from constants import (
     HEADER_DISTANCE_MM,
     FOOTER_DISTANCE_MM,
     NEWLINE,
-    ENCODIG,
+    ENCODING,
 )
 
 
@@ -48,7 +48,7 @@ def _read_txt_file(file_path: str) -> list[str]:
     Returns:
         list[str]: txtファイルの全行。
     """
-    with open(file_path, mode="r", encoding=ENCODIG, newline=NEWLINE) as f:
+    with open(file_path, mode="r", encoding=ENCODING, newline=NEWLINE) as f:
         return f.read().strip(NEWLINE).split(NEWLINE)  # ファイルの先頭と末尾にある改行はトリム
 
 
