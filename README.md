@@ -4,10 +4,10 @@ conv-txt-to-docxは、txtファイルをdocxファイルに変換するPythonス
 
 ## 開発環境
 
-- 開発環境: Windows
+- Windows 11
 - Python 3.10.6
 - VSCode
-- flake8
+- PEP8
 
 ## 環境構築方法
 
@@ -19,6 +19,9 @@ python -m venv env
 
 # 仮想環境起動
 .\env\Scripts\activate
+
+# pip更新
+python.exe -m pip install --upgrade pip
 
 # Python依存パッケージのインストール(初回のみ)
 pip install -r requirements.txt
@@ -40,6 +43,8 @@ deactivate
 │　│　└─deactivate.bat 👈仮想環境終了バッチ
 │　└─... 👈その他仮想環境設定ファイル
 ├─*.py 👈Pythonソースコード
+├─.flake8.py 👈flake8設定ファイル
+├─LICENSE.txt 👈ライセンス情報ファイル
 └─requirements.txt 👈依存ライブラリ
 ```
 
@@ -55,7 +60,7 @@ deactivate
 2. 以下を実行。
 
 ```sh
-# 実行(仮想環境内で)
+# 仮想環境内で
 python main.py
 ```
 
