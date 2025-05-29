@@ -1,0 +1,27 @@
+# 文字結合規則
+file_separator: ["", "＊", ""]
+
+# ドキュメントのスタイル
+paragraph_style_name: "Body Text"
+
+# 行間の幅
+paragraph_pt_before: 0
+paragraph_pt_after: 0
+
+#ページサイズ
+page_width_mm: 210.0
+page_height_mm: 297.0
+
+# ページの余白
+left_margin_mm: 19.0
+top_margin_mm: 19.0
+right_margin_mm: 19.0
+bottom_margin_mm: 19.0
+
+# ヘッダー/フッターの幅
+header_distance_mm: 19.0
+footer_distance_mm: 19.0
+
+# 一般規則
+encoding: utf-8
+newline_code: "CRLF"
