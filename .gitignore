@@ -1,5 +1,9 @@
 .vscode
 env
+venv
+.env
+.venv
 docs/src/**/*.txt
 docs/dest/**/*.docx
 *pyc
+__pycache__
