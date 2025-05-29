@@ -119,8 +119,12 @@ class Converter:
         Returns:
             list[str]: txtファイルの全行。
         """
-        with open(file_path, mode="r", encoding=self.config.encoding, newline=self.config.newline_char) as f:
-            return f.read().strip(self.config.newline_char).split(self.config.newline_char)  # ファイルの先頭と末尾にある改行はトリム
+        encoding = self.config.encoding
+        newline = self.config.newline_char
+        with open(file_path, mode="r", encoding=encoding, newline=newline) as f:
+            return f.read() \
+                .strip(self.config.newline_char) \
+                .split(self.config.newline_char)  # ファイルの先頭と末尾にある改行はトリム
 
     def _write_docx_file(self, dir_path: str, file_name: str, lines: list[str]) -> str:
         """docxファイル書き込み。
