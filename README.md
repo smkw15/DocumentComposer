@@ -19,8 +19,8 @@ ConvTxtToDocxは、txtファイルをdocxファイルに変換するPythonスク
 # 仮想環境構築
 python -m venv env
 
-# 仮想環境起動
-.\env\Scripts\activate
+# 仮想環境起動/
+./env/Scripts/activate
 
 # pip更新
 python.exe -m pip install --upgrade pip
@@ -35,7 +35,7 @@ deactivate
 ディレクトリ構造:
 
 ```txt
-./
+📁./
 ├─📁.github  👈GitHub設定情報
 ├─📁docs
 │　├─📁dest  👈出力先ディレクトリ(実行時自動作成)
@@ -46,9 +46,9 @@ deactivate
 │　│　└─📄deactivate.bat  👈仮想環境終了バッチ
 │　└─📄*.*  👈その他仮想環境設定ファイル
 ├─📁lib  👈Pythonスクリプト一式
-├─📄main.py 👈Pythonスクリプトのエントリーポイント
+├─🐍main.py 👈Pythonスクリプトのエントリーポイント
 ├─📄.flake8.py 👈flake8設定ファイル
-├─📄LICENSE.txt 👈ライセンス情報ファイル
+├─⚖️LICENSE.txt 👈ライセンス情報ファイル
 └─📄requirements.txt 👈依存ライブラリ
 ```
 
@@ -74,10 +74,10 @@ Pythonスクリプトには、必要に応じてコマンドライン引数を�
 
 | 引数 | ショートハンド | 初期値 | 説明 |
 | -- | -- | -- | -- |
-| --src | -s | `./docs/src` | 入力元ディレクトリまでのパス。 |
-| --dest | -d | `./docs/dest` | 出力先ディレクトリまでのパス。 |
-| --file | -f | `__all_in_one.docx__` | 出力ファイル名。 |
-| --config | -c | `./config.yaml` | 設定ファイルまでのパス。 |
+| `--src` | `-s` | `./docs/src` | 入力元ディレクトリまでのパス。 |
+| `--dest` | `-d` | `./docs/dest` | 出力先ディレクトリまでのパス。 |
+| `--file` | `-f` | `__all_in_one.docx__` | 出力ファイル名。 |
+| `--config` | `-c` | `./config.yaml` | 設定ファイルまでのパス。 |
 
 設定ファイルには、ConvTxtToDocxの動作を制御する各種設定情報が定義されています。ユーザはこのファイル定義された以下の設定値を編集することで、ConvTxtToDocxの動作を自由にカスタマイズすることができます。
 
@@ -97,5 +97,13 @@ Pythonスクリプトには、必要に応じてコマンドライン引数を�
 | `footer_distance_mm` | `19.0` | フッターの幅。mm単位。|
 | `encoding` | `utf-8` | 文字エンコーディング方式。|
 | `newline_code` | `CRLF` | 改行コード。`LF`、`CRLF`、`LF`のどれか。|
+
+改行コードの仕様は、一般的に多く見られる仕様に準じています。
+
+| 改行コード | 改行文字 | 対応OS |
+| -- | -- | -- |
+| `LF` | `\n` | Unix/Linux、Mac OS X以降 |
+| `CRLF` | `\r\n` | Windows |
+| `CR` | `\r` | Mac OS 9以前 |
 
 Pythonスクリプトが終了すると、出力先ディレクトリに出力ファイルが生成されています。
