@@ -8,6 +8,7 @@ DEST_FILE_NAME = "__all_in_one__.docx"
 CONFIG_FILE_PATH = "./config.yml"
 
 # 設定情報初期値
+WHITELST = []
 FILE_SEPARATOR = ['', "＊", '']
 PARAGRAPH_STYLE_NAME = 'Body Text'
 PARAGRAPH_PT_BEFORE = 0

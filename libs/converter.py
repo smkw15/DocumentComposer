@@ -2,6 +2,7 @@
 import glob
 import os
 import shutil
+import pathlib
 from functools import reduce
 from docx import Document
 from docx.shared import Pt, Mm
@@ -66,7 +67,7 @@ class Converter:
             str: 出力ファイルまでのパス。
         """
         # 対象ファイルの検索
-        src_file_pathes = self._find_txt_file(src_dir_path)
+        src_file_pathes = self._find_txt_file(src_dir_path, self.config.whitelst)
         print("# loaded:", "\n" + "\n".join(src_file_pathes))
         # 対象ファイルの内容を集積
         lines: list[str] = reduce(
@@ -80,17 +81,34 @@ class Converter:
         print("# created:", dest_file_path)
         return dest_file_path
 
-    def _find_txt_file(self, dir_path: str) -> list[str]:
+    def _find_txt_file(self, dir_path: str, whitelst: list[str]) -> list[str]:
         """txtファイル検索。
 
         Args:
             dir_path (str): 検索対象ディレクトリまでのパス。
+            whitelst (list[str]): ホワイトリスト。弾くファイルまでのパス。
 
         Returns:
             list[str]: txtファイルのパス文字列。
         """
         file_pathes: list[str] = glob.glob(os.path.join(dir_path, "**", "*.txt"), recursive=True)
+        file_pathes = self._fileter_files(file_pathes, whitelst)
         return sorted(file_pathes, key=os.path.basename)
+
+    def _fileter_files(self, file_pathes: list[str], whitelst: list[str]) -> list[str]:
+        """ファイルをフィルタリングする。
+
+        Args:
+            file_pathes (list[str]): 検査対象のファイルまでのパス。
+            whitelst (list[str]): ホワイトリスト。弾くファイルまでのパス。
+
+        Returns:
+            list[str]: フィルタリングした後のファイルのリスト。
+        """
+        # パス文字列は絶対パスに正規化してから検査
+        file_pathes = [str(pathlib.Path(p).resolve()) for p in file_pathes]
+        whitelst = [str(pathlib.Path(w).resolve()) for w in whitelst]
+        return [p for p in file_pathes if p not in whitelst]
 
     def _read_txt_file(self, file_path: str) -> list[str]:
         """txtファイル読み込み。
