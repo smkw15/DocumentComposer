@@ -2,14 +2,10 @@
 import glob
 import os
 import shutil
-import pathlib
 from functools import reduce
 from docx import Document
 from docx.shared import Pt, Mm
 from libs.constants import (
-    SRC_DIR_PATH,
-    DEST_DIR_PATH,
-    DEST_FILE_NAME,
     CONFIG_FILE_PATH
 )
 from libs.config import Config
@@ -50,25 +46,71 @@ class Converter:
         """
         return cls(Config.from_yml(config_file_path))
 
+    def conv_txt_to_docx_verbosely(
+        self,
+        src_root_dir_path: str,
+        dest_root_dir_path: str,
+        dest_root_file_name: str,
+        can_reset: bool
+    ) -> list[str]:
+        """txtファイルを階層ごとに結合してdocxファイルとして出力する。
+
+        Args:
+            src_root_dir_path (str): 入力元ルートディレクトリ。入力元の最も上層のディレクトリ。
+            dest_root_dir_path (str): 出力先ルートディレクトリ。出力先の最も上層のディレクトリ。
+            dest_root_file_name (str): 出力ルートファイル。すべての階層のtxtファイルの内容を含む。
+            can_reset (bool): リセットフラグ。出力先ディレクトリの削除可否。
+        """
+        # リセットフラグが立っている時のみ既存の出力先をリセット
+        if can_reset and os.path.exists(dest_root_dir_path):
+            shutil.rmtree(dest_root_dir_path)
+            print("# Remove:", dest_root_dir_path)
+
+        # 与えればパス文字列は絶対パスにしておく
+        src_root_dir_path = os.path.abspath(src_root_dir_path)
+        dest_root_dir_path = os.path.abspath(dest_root_dir_path)
+
+        # 対象入力ディレクトリを検索
+        src_dir_pathes = self._find_dir(src_root_dir_path, self.config.whitelst)
+
+        # 入力ディレクトリごとに処理
+        for src_dir_path in src_dir_pathes:
+            # 出力先ディレクトリを導出
+            dest_dir_path = src_dir_path.replace(src_root_dir_path, dest_root_dir_path)
+            # 出力ファイル名を導出
+            dest_file_name = dest_root_file_name  \
+                if src_dir_path == src_root_dir_path \
+                else os.path.basename(dest_dir_path) + ".docx"
+            # 変換実行
+            self.conv_txt_to_docx(src_dir_path, dest_dir_path, dest_file_name, False)
+
     def conv_txt_to_docx(
         self,
-        src_dir_path: str = SRC_DIR_PATH,
-        dest_dir_path: str = DEST_DIR_PATH,
-        dest_file_name: str = DEST_FILE_NAME
+        src_dir_path: str,
+        dest_dir_path: str,
+        dest_file_name: str,
+        can_reset: bool
     ) -> str:
-        """txtファイルをdocxファイルに結合する。
+        """txtファイルを結合してdocxファイルとして出力する。
 
         Args:
             src_dir_path (str): 入力元ディレクリまでのパス。
             dest_dir_path (str): 出力先ディレクリまでのパス。
             dest_file_name (str): 出力ファイルのファイル名。
+            can_reset (bool): リセットフラグ。出力先ディレクトリの削除可否。
 
         Returns:
             str: 出力ファイルまでのパス。
         """
-        # 対象ファイルの検索
+        # リセットフラグが立っている時のみ既存の出力先をリセット
+        if can_reset and os.path.exists(dest_dir_path):
+            shutil.rmtree(dest_dir_path)
+            print("# Remove:", dest_dir_path)
+
+        # 対象ファイルを検索
         src_file_pathes = self._find_txt_file(src_dir_path, self.config.whitelst)
-        print("# loaded:", "\n" + "\n".join(src_file_pathes))
+        print("# Loaded:", "\n" + "\n".join(src_file_pathes))
+
         # 対象ファイルの内容を集積
         lines: list[str] = reduce(
             lambda lst, src_file_path: lst + self.config.file_separator + self._read_txt_file(src_file_path),
@@ -76,9 +118,10 @@ class Converter:
             list[str]()
         )
         lines = lines[len(self.config.file_separator):]  # 最初に余計なファイルセパレータが混じるので消す
+
         # docxに書き込み
         dest_file_path = self._write_docx_file(dest_dir_path, dest_file_name, lines)
-        print("# created:", dest_file_path)
+        print("# Created:", dest_file_path)
         return dest_file_path
 
     def _find_txt_file(self, dir_path: str, whitelst: list[str]) -> list[str]:
@@ -92,23 +135,38 @@ class Converter:
             list[str]: txtファイルのパス文字列。
         """
         file_pathes: list[str] = glob.glob(os.path.join(dir_path, "**", "*.txt"), recursive=True)
-        file_pathes = self._fileter_files(file_pathes, whitelst)
-        return sorted(file_pathes, key=os.path.basename)
+        file_pathes = self._fileter_pathes(file_pathes, whitelst)
+        return sorted(file_pathes, key=lambda p: p.split(os.sep))
 
-    def _fileter_files(self, file_pathes: list[str], whitelst: list[str]) -> list[str]:
-        """ファイルをフィルタリングする。
+    def _find_dir(self, dir_path: str, whitelst: list[str]) -> list[str]:
+        """ディレクトリ検索。
 
         Args:
-            file_pathes (list[str]): 検査対象のファイルまでのパス。
+            dir_path (str): 検索対象ディレクトリまでのパス。
+            whitelst (list[str]): ホワイトリスト。弾くディレクトリまでのパス。
+
+        Returns:
+            list[str]: ディレクトリのパス文字列。
+        """
+        dir_pathes: list[str] = glob.glob(os.path.join(dir_path, "**"), recursive=True)
+        dir_pathes = [dir_path for dir_path in dir_pathes if os.path.isdir(dir_path)]
+        dir_pathes = self._fileter_pathes(dir_pathes, whitelst)
+        return sorted(dir_pathes, key=lambda p: p.split(os.sep))
+
+    def _fileter_pathes(self, pathes: list[str], whitelst: list[str]) -> list[str]:
+        """パスをフィルタリングする。
+
+        Args:
+            pathes (list[str]): 検査対象のパスのリスト。
             whitelst (list[str]): ホワイトリスト。弾くファイルまでのパス。
 
         Returns:
-            list[str]: フィルタリングした後のファイルのリスト。
+            list[str]: フィルタリングした後のパスのリスト。
         """
         # パス文字列は絶対パスに正規化してから検査
-        file_pathes = [str(pathlib.Path(p).resolve()) for p in file_pathes]
-        whitelst = [str(pathlib.Path(w).resolve()) for w in whitelst]
-        return [p for p in file_pathes if p not in whitelst]
+        pathes = [os.path.abspath(p) for p in pathes]
+        whitelst = [os.path.abspath(w) for w in whitelst]
+        return [p for p in pathes if p not in whitelst]
 
     def _read_txt_file(self, file_path: str) -> list[str]:
         """txtファイル読み込み。
@@ -138,9 +196,8 @@ class Converter:
             str: 出力ファイルまでのパス。
         """
         # 出力先の準備
-        if os.path.exists(dir_path):
-            shutil.rmtree(dir_path)  # 既に存在していたら削除
-        os.mkdir(dir_path)
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
         # ドキュメント用意
         doc = Document()
         section = doc.sections[0]
@@ -159,5 +216,7 @@ class Converter:
             paragraph.paragraph_format.space_after = Pt(self.config.paragraph_pt_after)
         # ドキュメント書き込み
         dest_file_path = os.path.join(dir_path, file_name)
+        if os.path.exists(dest_file_path):
+            os.remove(dest_file_path)
         doc.save(dest_file_path)
         return dest_file_path

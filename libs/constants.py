@@ -2,10 +2,11 @@
 from typing import Literal
 
 # コマンドライン引数初期値
-SRC_DIR_PATH = "./docs/src"
-DEST_DIR_PATH = "./docs/dest"
-DEST_FILE_NAME = "__all_in_one__.docx"
+SRC_ROOT_DIR_PATH = "./docs/src"
+DEST_ROOT_DIR_PATH = "./docs/dest"
+DEST_ROOT_FILE_NAME = "__all_in_one__.docx"
 CONFIG_FILE_PATH = "./config.yml"
+VERBOSE = False
 
 # 設定情報初期値
 WHITELST = []
