@@ -2,7 +2,7 @@
 import dataclasses
 import yaml
 from libs.constants import (
-    WHITELST,
+    IGNORANTS,
     FILE_SEPARATOR,
     PARAGRAPH_STYLE_NAME,
     PARAGRAPH_PT_BEFORE,
@@ -36,7 +36,7 @@ class Config:
     """設定情報データモデル。
 
     Attribute:
-        whitelst (list[str]): ホワイトリスト。
+        ignorants (list[str]): 無視リスト。
         file_separator (list[str]): ファイル単位の区切り行リスト。
         paragraph_style_name (str): 段落のスタイル名。
         paragraph_pt_before (float): 段落前のスペース。
@@ -52,7 +52,7 @@ class Config:
         encoding (str): 文字エンコーディング方式。
         newline_code (str): 改行コード。
     """
-    whitelst: list[str]
+    ignorants: list[str]
     file_separator: list[str]
     paragraph_style_name: str
     paragraph_pt_before: float
@@ -103,7 +103,7 @@ class Config:
         Returns:
             Config: インスタンス。
         """
-        whitelst = d["whitelst"] if "whitelst" in d else WHITELST
+        ignorants = d["ignorants"] if "ignorants" in d else IGNORANTS
         file_separator = d["file_separator"] if "file_separator" in d else FILE_SEPARATOR
         paragraph_style_name = d["paragraph_style_name"] if "paragraph_style_name" in d else PARAGRAPH_STYLE_NAME
         paragraph_pt_before = d["paragraph_pt_before"] if "paragraph_pt_before" in d else PARAGRAPH_PT_BEFORE
@@ -119,7 +119,7 @@ class Config:
         encoding = d["encoding"] if "encoding" in d else ENCODING
         newline_code = d["newline_code"] if "newline_code" in d else NEWLINE_CODE
         return cls(
-            whitelst=whitelst,
+            ignorants=ignorants,
             file_separator=file_separator,
             paragraph_style_name=paragraph_style_name,
             paragraph_pt_before=paragraph_pt_before,
@@ -142,7 +142,7 @@ class Config:
         Returns:
             str: 各パラメータの文字列表現。
         """
-        return f"whitelst={self.whitelst}" \
+        return f"ignorants={self.ignorants}" \
             + f"file_separator={self.file_separator}," \
             + f"paragraph_style_name={self.paragraph_style_name}, " \
             + f"paragraph_pt_before={self.paragraph_pt_before}, " \

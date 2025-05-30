@@ -71,7 +71,7 @@ class Converter:
         dest_root_dir_path = os.path.abspath(dest_root_dir_path)
 
         # 対象入力ディレクトリを検索
-        src_dir_pathes = self._find_dir(src_root_dir_path, self.config.whitelst)
+        src_dir_pathes = self._find_dir(src_root_dir_path, self.config.ignorants)
 
         # 入力ディレクトリごとに処理
         for src_dir_path in src_dir_pathes:
@@ -108,7 +108,7 @@ class Converter:
             print("# Remove:", dest_dir_path)
 
         # 対象ファイルを検索
-        src_file_pathes = self._find_txt_file(src_dir_path, self.config.whitelst)
+        src_file_pathes = self._find_txt_file(src_dir_path, self.config.ignorants)
         print("# Loaded:", "\n" + "\n".join(src_file_pathes))
 
         # 対象ファイルの内容を集積
@@ -124,49 +124,49 @@ class Converter:
         print("# Created:", dest_file_path)
         return dest_file_path
 
-    def _find_txt_file(self, dir_path: str, whitelst: list[str]) -> list[str]:
+    def _find_txt_file(self, dir_path: str, ignorants: list[str]) -> list[str]:
         """txtファイル検索。
 
         Args:
             dir_path (str): 検索対象ディレクトリまでのパス。
-            whitelst (list[str]): ホワイトリスト。弾くファイルまでのパス。
+            ignorants (list[str]): 無視リスト。弾くファイルまでのパス。
 
         Returns:
             list[str]: txtファイルのパス文字列。
         """
         file_pathes: list[str] = glob.glob(os.path.join(dir_path, "**", "*.txt"), recursive=True)
-        file_pathes = self._fileter_pathes(file_pathes, whitelst)
+        file_pathes = self._fileter_pathes(file_pathes, ignorants)
         return sorted(file_pathes, key=lambda p: p.split(os.sep))
 
-    def _find_dir(self, dir_path: str, whitelst: list[str]) -> list[str]:
+    def _find_dir(self, dir_path: str, ignorants: list[str]) -> list[str]:
         """ディレクトリ検索。
 
         Args:
             dir_path (str): 検索対象ディレクトリまでのパス。
-            whitelst (list[str]): ホワイトリスト。弾くディレクトリまでのパス。
+            ignorants (list[str]): 無視リスト。弾くディレクトリまでのパス。
 
         Returns:
             list[str]: ディレクトリのパス文字列。
         """
         dir_pathes: list[str] = glob.glob(os.path.join(dir_path, "**"), recursive=True)
         dir_pathes = [dir_path for dir_path in dir_pathes if os.path.isdir(dir_path)]
-        dir_pathes = self._fileter_pathes(dir_pathes, whitelst)
+        dir_pathes = self._fileter_pathes(dir_pathes, ignorants)
         return sorted(dir_pathes, key=lambda p: p.split(os.sep))
 
-    def _fileter_pathes(self, pathes: list[str], whitelst: list[str]) -> list[str]:
+    def _fileter_pathes(self, pathes: list[str], ignorants: list[str]) -> list[str]:
         """パスをフィルタリングする。
 
         Args:
             pathes (list[str]): 検査対象のパスのリスト。
-            whitelst (list[str]): ホワイトリスト。弾くファイルまでのパス。
+            ignorants (list[str]): 無視リスト。弾くファイルまでのパス。
 
         Returns:
             list[str]: フィルタリングした後のパスのリスト。
         """
         # パス文字列は絶対パスに正規化してから検査
         pathes = [os.path.abspath(p) for p in pathes]
-        whitelst = [os.path.abspath(w) for w in whitelst]
-        return [p for p in pathes if p not in whitelst]
+        ignorants = [os.path.abspath(w) for w in ignorants]
+        return [p for p in pathes if p not in ignorants]
 
     def _read_txt_file(self, file_path: str) -> list[str]:
         """txtファイル読み込み。

@@ -9,7 +9,7 @@ CONFIG_FILE_PATH = "./config.yml"
 VERBOSE = False
 
 # 設定情報初期値
-WHITELST = []
+IGNORANTS = []
 FILE_SEPARATOR = ['', "＊", '']
 PARAGRAPH_STYLE_NAME = 'Body Text'
 PARAGRAPH_PT_BEFORE = 0
