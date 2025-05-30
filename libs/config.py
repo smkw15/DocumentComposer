@@ -1,6 +1,7 @@
 """設定情報モジュール。"""
 import dataclasses
 import yaml
+import pathlib
 from libs.constants import (
     IGNORANTS,
     FILE_SEPARATOR,
@@ -36,7 +37,7 @@ class Config:
     """設定情報データモデル。
 
     Attribute:
-        ignorants (list[str]): 無視リスト。
+        ignorants (list[pathlib.Path]): 無視リスト。
         file_separator (list[str]): ファイル単位の区切り行リスト。
         paragraph_style_name (str): 段落のスタイル名。
         paragraph_pt_before (float): 段落前のスペース。
@@ -52,7 +53,7 @@ class Config:
         encoding (str): 文字エンコーディング方式。
         newline_code (str): 改行コード。
     """
-    ignorants: list[str]
+    ignorants: list[pathlib.Path]
     file_separator: list[str]
     paragraph_style_name: str
     paragraph_pt_before: float
@@ -67,6 +68,15 @@ class Config:
     footer_distance_mm: float
     encoding: str
     newline_code: NewlineCode
+
+    @property
+    def ignorants_as_str(self) -> pathlib.Path:
+        """無視リストを絶対パスの文字列として取得する。
+
+        Returns:
+            list[str]: 無視リスト。
+        """
+        return [ig.resolve() for ig in self.ignorants]
 
     @property
     def newline_char(self) -> NewlineChar:
@@ -103,37 +113,23 @@ class Config:
         Returns:
             Config: インスタンス。
         """
-        ignorants = d["ignorants"] if "ignorants" in d else IGNORANTS
-        file_separator = d["file_separator"] if "file_separator" in d else FILE_SEPARATOR
-        paragraph_style_name = d["paragraph_style_name"] if "paragraph_style_name" in d else PARAGRAPH_STYLE_NAME
-        paragraph_pt_before = d["paragraph_pt_before"] if "paragraph_pt_before" in d else PARAGRAPH_PT_BEFORE
-        paragraph_pt_after = d["paragraph_pt_after"] if "paragraph_pt_after" in d else PARAGRAPH_PT_AFTER
-        page_width_mm = d["page_width_mm"] if "page_width_mm" in d else PAGE_WIDTH_MM
-        page_height_mm = d["page_height_mm"] if "page_height_mm" in d else PAGE_HEIGHT_MM
-        left_margin_mm = d["left_margin_mm"] if "left_margin_mm" in d else LEFT_MARGIN_MM
-        top_margin_mm = d["top_margin_mm"] if "top_margin_mm" in d else TOP_MARGIN_MM
-        right_margin_mm = d["right_margin_mm"] if "right_margin_mm" in d else RIGHT_MARGIN_MM
-        bottom_margin_mm = d["bottom_margin_mm"] if "bottom_margin_mm" in d else BOTTOM_MARGIN_MM
-        header_distance_mm = d["header_distance_mm"] if "header_distance_mm" in d else HEADER_DISTANCE_MM
-        footer_distance_mm = d["footer_distance_mm"] if "footer_distance_mm" in d else FOOTER_DISTANCE_MM
-        encoding = d["encoding"] if "encoding" in d else ENCODING
-        newline_code = d["newline_code"] if "newline_code" in d else NEWLINE_CODE
+        tmp_ignorants = d["ignorants"] if "ignorants" in d else IGNORANTS
         return cls(
-            ignorants=ignorants,
-            file_separator=file_separator,
-            paragraph_style_name=paragraph_style_name,
-            paragraph_pt_before=paragraph_pt_before,
-            paragraph_pt_after=paragraph_pt_after,
-            page_width_mm=page_width_mm,
-            page_height_mm=page_height_mm,
-            left_margin_mm=left_margin_mm,
-            top_margin_mm=top_margin_mm,
-            right_margin_mm=right_margin_mm,
-            bottom_margin_mm=bottom_margin_mm,
-            header_distance_mm=header_distance_mm,
-            footer_distance_mm=footer_distance_mm,
-            encoding=encoding,
-            newline_code=newline_code
+            ignorants=[pathlib.Path(ig) for ig in tmp_ignorants],  # 無視リストは絶対パスに正規化して格納する
+            file_separator=d["file_separator"] if "file_separator" in d else FILE_SEPARATOR,
+            paragraph_style_name=d["paragraph_style_name"] if "paragraph_style_name" in d else PARAGRAPH_STYLE_NAME,
+            paragraph_pt_before=d["paragraph_pt_before"] if "paragraph_pt_before" in d else PARAGRAPH_PT_BEFORE,
+            paragraph_pt_after=d["paragraph_pt_after"] if "paragraph_pt_after" in d else PARAGRAPH_PT_AFTER,
+            page_width_mm=d["page_width_mm"] if "page_width_mm" in d else PAGE_WIDTH_MM,
+            page_height_mm=d["page_height_mm"] if "page_height_mm" in d else PAGE_HEIGHT_MM,
+            left_margin_mm=d["left_margin_mm"] if "left_margin_mm" in d else LEFT_MARGIN_MM,
+            top_margin_mm=d["top_margin_mm"] if "top_margin_mm" in d else TOP_MARGIN_MM,
+            right_margin_mm=d["right_margin_mm"] if "right_margin_mm" in d else RIGHT_MARGIN_MM,
+            bottom_margin_mm=d["bottom_margin_mm"] if "bottom_margin_mm" in d else BOTTOM_MARGIN_MM,
+            header_distance_mm=d["header_distance_mm"] if "header_distance_mm" in d else HEADER_DISTANCE_MM,
+            footer_distance_mm=d["footer_distance_mm"] if "footer_distance_mm" in d else FOOTER_DISTANCE_MM,
+            encoding=d["encoding"] if "encoding" in d else ENCODING,
+            newline_code=d["newline_code"] if "newline_code" in d else NEWLINE_CODE
         )
 
     def __repr__(self):
@@ -142,7 +138,7 @@ class Config:
         Returns:
             str: 各パラメータの文字列表現。
         """
-        return f"ignorants={self.ignorants}" \
+        return f"ignorants={self.ignorants_as_str}" \
             + f"file_separator={self.file_separator}," \
             + f"paragraph_style_name={self.paragraph_style_name}, " \
             + f"paragraph_pt_before={self.paragraph_pt_before}, " \

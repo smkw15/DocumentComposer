@@ -28,3 +28,6 @@ NEWLINE_CODE = "CRLF"
 # 改行コード/改行文字
 NewlineCode = Literal["LF", "CRLF", "CR"]
 NewlineChar = Literal["\n", "\r\n", "\r"]
+
+# 対応ファイル拡張子
+Extension = Literal[".txt", ".docx"]

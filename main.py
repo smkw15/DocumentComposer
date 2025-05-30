@@ -1,13 +1,16 @@
 """メインモジュール。"""
 import argparse
 import dataclasses
-from libs.converter import Converter
+import pathlib
+from libs.composer import Composer
 from libs.constants import (
     SRC_ROOT_DIR_PATH,
     DEST_ROOT_DIR_PATH,
     DEST_ROOT_FILE_NAME,
     CONFIG_FILE_PATH
 )
+from libs.composable.txt import Txt
+from libs.composable.docx import Docx
 
 
 @dataclasses.dataclass
@@ -61,21 +64,23 @@ def main():
     # 引数解析
     args = parse_args()
     # 変換器生成
-    converter = Converter.from_yml(args.config_file_path)
-    # 冗長出力するか
+    composer = Composer.from_yml(args.config_file_path)
     if args.verbose:
-        converter.conv_txt_to_docx_verbosely(
-            args.src_dir_path,
-            args.dest_dir_path,
-            args.dest_file_name,
-            True
+        composer.compose_verbosely(
+            pathlib.Path(args.src_dir_path),
+            pathlib.Path(args.dest_dir_path),
+            pathlib.Path(args.dest_file_name),
+            True,
+            Txt,
+            Docx
         )
     else:
-        converter.conv_txt_to_docx(
-            args.src_dir_path,
-            args.dest_dir_path,
-            args.dest_file_name,
-            True
+        composer.compose(
+            pathlib.Path(args.src_dir_path),
+            pathlib.Path(args.dest_dir_path) / pathlib.Path(args.dest_file_name),
+            True,
+            Txt,
+            Docx
         )
 
 
