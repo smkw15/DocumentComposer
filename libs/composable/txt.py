@@ -74,4 +74,4 @@ class Txt(Composable):
     def write_file(self):
         """ファイルを書き込み。"""
         with open(str(self.file_path), mode="w", encoding=self.config.encoding, newline=self.config.newline_char) as f:
-            f.writelines(self.get_lines())
+            f.write(self.config.newline_char.join(self.get_lines()))

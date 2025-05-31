@@ -28,4 +28,4 @@ footer_distance_mm: 19.0
 
 # 一般規則
 encoding: utf-8
-newline_code: "CRLF"
+newline_code: "LF"
