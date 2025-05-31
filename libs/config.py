@@ -4,6 +4,7 @@ import yaml
 import pathlib
 from libs.constants import (
     IGNORANTS,
+    DEST_ROOT_FILE_NICKNAME,
     FILE_SEPARATOR,
     PARAGRAPH_STYLE_NAME,
     PARAGRAPH_PT_BEFORE,
@@ -38,6 +39,7 @@ class Config:
 
     Attribute:
         ignorants (list[pathlib.Path]): 無視リスト。
+        dest_root_file_nickname (str): 出力ルートファイルのファイル名(拡張子なし)。
         file_separator (list[str]): ファイル単位の区切り行リスト。
         paragraph_style_name (str): 段落のスタイル名。
         paragraph_pt_before (float): 段落前のスペース。
@@ -54,6 +56,7 @@ class Config:
         newline_code (str): 改行コード。
     """
     ignorants: list[pathlib.Path]
+    dest_root_file_nickname: str
     file_separator: list[str]
     paragraph_style_name: str
     paragraph_pt_before: float
@@ -116,6 +119,7 @@ class Config:
         tmp_ignorants = d["ignorants"] if "ignorants" in d else IGNORANTS
         return cls(
             ignorants=[pathlib.Path(ig) for ig in tmp_ignorants],  # 無視リストは絶対パスに正規化して格納する
+            dest_root_file_nickname=d["dest_root_file_nickname"] if "dest_root_file_nickname" in d else DEST_ROOT_FILE_NICKNAME,
             file_separator=d["file_separator"] if "file_separator" in d else FILE_SEPARATOR,
             paragraph_style_name=d["paragraph_style_name"] if "paragraph_style_name" in d else PARAGRAPH_STYLE_NAME,
             paragraph_pt_before=d["paragraph_pt_before"] if "paragraph_pt_before" in d else PARAGRAPH_PT_BEFORE,

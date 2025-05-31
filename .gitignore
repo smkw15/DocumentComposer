@@ -4,6 +4,8 @@ venv
 .env
 .venv
 docs/src/**/*.txt
+docs/src/**/*.docx
+docs/dest/**/*.txt
 docs/dest/**/*.docx
 *pyc
 __pycache__

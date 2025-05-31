@@ -2,7 +2,7 @@
 import os
 import pathlib
 import shutil
-from typing import Type, TypeVar, Generic
+from typing import Type, TypeVar
 from libs.composable.base import Composable
 from libs.config import Config
 from libs.constants import CONFIG_FILE_PATH
@@ -11,7 +11,7 @@ S = TypeVar("S", bound=Composable)
 D = TypeVar("D", bound=Composable)
 
 
-class Composer(Generic[S, D]):
+class Composer:
     """コンポーザー。"""
 
     def __init__(self, config: Config):
@@ -50,7 +50,6 @@ class Composer(Generic[S, D]):
         self,
         src_root_dir_path: pathlib.Path,
         dest_root_dir_path: pathlib.Path,
-        dest_root_file_name: str,
         can_reset: bool,
         src_type: Type[S],
         dest_type: Type[D]
@@ -60,7 +59,6 @@ class Composer(Generic[S, D]):
         Args:
             src_root_dir_path (pathlib.Path): 入力元ルートディレクトリ。入力元の最も上層のディレクトリ。
             dest_root_dir_path (pathlib.Path): 出力先ルートディレクトリ。出力先の最も上層のディレクトリ。
-            dest_root_file_name (str): 出力ルートファイル。すべての階層のtxtファイルの内容を含む。
             can_reset (bool): リセットフラグ。出力先ディレクトリの削除可否。
             src_type (Type[S]): 入力ファイルのファイル形式を示す型引数。
             dest_type (Type[D]): 出力ファイルのファイル形式を示す型引数。
@@ -78,7 +76,8 @@ class Composer(Generic[S, D]):
                 str(dest_root_dir_path.resolve())))
             # 出力ファイルのパスを導出
             if src_dir_path.resolve() == src_root_dir_path.resolve():
-                dest_file_path = dest_dir_path / pathlib.Path(dest_root_file_name)
+                dest_file_name = self.config.dest_root_file_nickname + dest_type.get_extension()
+                dest_file_path = dest_dir_path / dest_file_name
             else:
                 dest_file_name = dest_dir_path.name + dest_type.get_extension()
                 dest_file_path = dest_dir_path / pathlib.Path(dest_file_name)

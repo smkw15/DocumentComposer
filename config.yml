@@ -2,6 +2,9 @@
 # 処理対象外(無視リスト)
 ignorants: []
 
+# 出力ファイルのファイル名(拡張子なし)
+dest_root_file_nickname: __all_in_one__
+
 # 文字結合規則
 file_separator: ["", "＊", ""]
 
@@ -9,8 +12,8 @@ file_separator: ["", "＊", ""]
 paragraph_style_name: "Body Text"
 
 # 行間の幅
-paragraph_pt_before: 0
-paragraph_pt_after: 0
+paragraph_pt_before: 0.0
+paragraph_pt_after: 0.0
 
 #ページサイズ
 page_width_mm: 210.0
