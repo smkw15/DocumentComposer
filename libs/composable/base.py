@@ -15,7 +15,7 @@ class Composable(metaclass=ABCMeta):
 
         Args:
             file_path (pathlib.Path): ファイルのパス。
-            config (Config): 設定情報。
+            config (Config): 構成情報。
 
         Returns:
             Composable: インスタンス。

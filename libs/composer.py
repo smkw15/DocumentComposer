@@ -18,7 +18,7 @@ class Composer:
         """コンストラクタ。
 
         Args:
-            config (Config): 設定情報。
+            config (Config): 構成情報。
         """
         self.config: Config = config
 
@@ -39,7 +39,7 @@ class Composer:
         """YAMLファイルからインスタンスを生成する。
 
         Args:
-            config_file_path (str): 設定ファイルまでのパス。
+            config_file_path (str): 構成ファイルまでのパス。
 
         Return:
             Converter: インスタンス。

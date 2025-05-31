@@ -1,4 +1,4 @@
-"""設定情報モジュール。"""
+"""構成情報モジュール。"""
 import dataclasses
 import yaml
 import pathlib
@@ -29,13 +29,13 @@ from libs.util import (
 
 
 class ConfigLoader(yaml.SafeLoader):
-    """設定ファイル用の独自YAMLローダー"""
+    """構成ファイル用の独自YAMLローダー"""
     pass
 
 
 @dataclasses.dataclass
 class Config:
-    """設定情報データモデル。
+    """構成情報データモデル。
 
     Attribute:
         ignorants (list[pathlib.Path]): 無視リスト。
@@ -95,7 +95,7 @@ class Config:
         """YAMLファイルからインスタンスを生成する。
 
         Args:
-            config_file_path (str): 設定ファイルまでのパス。
+            config_file_path (str): 構成ファイルまでのパス。
 
         Return:
             Config: インスタンス。

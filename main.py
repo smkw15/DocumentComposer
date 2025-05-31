@@ -22,7 +22,7 @@ class ArgParams:
     Attribute:
         src_file_dir (str): 入力元ディレクトリまでのパス。
         dest_file_dir (str): 出力先ディレクトリまでのパス。
-        config_file_path (str): 設定ファイルまでのパス。
+        config_file_path (str): 構成ファイルまでのパス。
         src_file_kind (FileKind): 入力ファイルのファイル形式。
         dest_file_kind (FileKind): 出力ファイルのファイル形式。
         verbose (bool): 冗長出力を行うか。
@@ -42,7 +42,7 @@ def parse_args() -> ArgParams:
     - 入力元ディレクリまでのパス
     - 出力先ディレクトリまでのパス
     - 出力ファイル名
-    - 設定ファイルまでのパス
+    - 構成ファイルまでのパス
 
     Return:
         Args: 引数解析結果。
@@ -50,7 +50,7 @@ def parse_args() -> ArgParams:
     parser = argparse.ArgumentParser()
     parser.add_argument("--src", "-s", help="入力元ディレクリまでのパス。", default=SRC_ROOT_DIR_PATH, type=str)
     parser.add_argument("--dest", "-d", help="出力先ディレクトリまでのパス。", default=DEST_ROOT_DIR_PATH, type=str)
-    parser.add_argument("--config", "-c", help="設定ファイルまでのパス。", default=CONFIG_FILE_PATH, type=str)
+    parser.add_argument("--config", "-c", help="構成ファイルまでのパス。", default=CONFIG_FILE_PATH, type=str)
     parser.add_argument("-x", help="入力ファイルのファイル形式。", default="txt", type=str)
     parser.add_argument("-y", help="出力ファイルのファイル形式。", default="docx", type=str)
     parser.add_argument("--verbose", "-v", help="冗長出力フラグ。ディレクトリごとに結合したファイルも出力する。", action="store_true")

@@ -17,7 +17,7 @@ SRC_EXTENSION: FileKind = "txt"
 DEST_EXTENSION: FileKind = "docx"
 VERBOSE = False
 
-# 設定情報初期値
+# 構成情報初期値
 IGNORANTS: list[str] = []
 DEST_ROOT_FILE_NICKNAME = "__all_in_one__"
 FILE_SEPARATOR: list[str] = ['', "＊", '']
