@@ -63,7 +63,7 @@ deactivate
 
 ## 使用方法
 
-仮想環境を起動させ、DocumentComposerのメインモジュールを実行します。
+仮想環境を起動させ、DocumentComposerのメインモジュールを実行します。メインモジュールが終了すると、出力先ディレクトリに出力ファイルが生成されています。
 
 ```sh
 python main.py 
@@ -74,6 +74,8 @@ python main.py
   [-y <dest_file_kind>]
   [--verbose]
 ```
+
+### コマンドライン引数
 
 メインモジュールには、必要に応じてコマンドライン引数を渡すことができます。ユーザはこれらの引数を利用してDocumentComposerの入出力を制御することができます。
 
@@ -116,13 +118,13 @@ python main.py
  　├─📄B1
  　└─📄B2
 
-👇
+👇処理結果
 
 📁docs/src
 ├─📁A
-│　└─📄A　👈A1 + A2
+│　└─📄A  👈A1 + A2
 ├─📁B
-│　└─📄B　👈B1 + B2
+│　└─📄B  👈B1 + B2
 └─📄__all_in_doc__  👈A1 + A2 + B1 + B2
 ```
 
@@ -136,8 +138,8 @@ python main.py
 | `dest_root_file_nickname` | `__all_in_one__` | 最上層の出力ファイル(出力ルートファイル)のファイル名。拡張子を記載しない。 |
 | `file_separator` | `['', "＊", '']` | ファイルセパレータ。1つの配列要素が1行の文字列に相当する。|
 | `paragraph_style_name` | `Body Text` | 段落のスタイル。python-docxの仕様に基づく。|
-| `paragraph_pt_before` | `0` | 段落間スペースのサイズ。段落前。|
-| `paragraph_pt_after` | `0` | 段落間スペースのサイズ。段落後。|
+| `paragraph_pt_before` | `0.0` | 段落間スペースのサイズ。段落前。|
+| `paragraph_pt_after` | `0.0` | 段落間スペースのサイズ。段落後。|
 | `page_width_mm` | `210.0` | ページサイズの横幅。mm単位。|
 | `page_height_mm` | `297.0` | ページサイズの縦幅。mm単位。|
 | `left_margin_mm` | `19.0` | ページの余白の左。mm単位。|
@@ -156,5 +158,3 @@ python main.py
 | `LF` | `\n` | Unix/Linux、Mac OS X以降 |
 | `CRLF` | `\r\n` | Windows |
 | `CR` | `\r` | Mac OS 9以前 |
-
-メインモジュールが終了すると、出力先ディレクトリに出力ファイルが生成されています。
