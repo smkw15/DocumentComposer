@@ -13,19 +13,38 @@ DocumentComposerは、複数の文書ファイルを読み込み、内容を結�
 
 ## 環境構築方法
 
-■仮想環境:
+■仮想環境(Windows):
 
 ```sh
 # 仮想環境構築
-python -m venv env
+python3 -m venv env
 
-# 仮想環境起動/
-./env/Scripts/activate
+# 仮想環境起動
+.\env\Scripts\activate
 
 # pip更新
-python.exe -m pip install --upgrade pip
+python3 -m pip install --upgrade pip
 
-# Python依存パッケージのインストール(初回のみ)
+# Python依存パッケージのインストール(仮想環境構築時の初回のみ)
+pip install -r requirements.txt
+
+# 仮想環境終了(仮想環境内で)
+deactivate
+```
+
+■仮想環境(Linux系):
+
+```sh
+# 仮想環境起動
+python3 -m venv env
+
+# 仮想環境起動(Linux系の場合)
+source env/bin/activate
+
+# pip更新
+python3 -m pip install --upgrade pip
+
+# Python依存パッケージのインストール(仮想環境構築時の初回のみ)
 pip install -r requirements.txt
 
 # 仮想環境終了(仮想環境内で)
@@ -66,7 +85,7 @@ deactivate
 仮想環境を起動させ、DocumentComposerのメインモジュールを実行します。メインモジュールが終了すると、出力先ディレクトリに出力ファイルが生成されています。
 
 ```sh
-python main.py 
+python3 main.py
   [--src <src_dir_path>]
   [--dest <dest_dir_path>]
   [--config <config_file_path>]
