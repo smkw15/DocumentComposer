@@ -32,7 +32,7 @@ pip install -r requirements.txt
 deactivate
 ```
 
-■仮想環境(Linux系):
+■仮想環境(Linux / Mac OS):
 
 ```sh
 # 仮想環境起動
@@ -149,7 +149,7 @@ python3 main.py
 
 ### 構成ファイル
 
-構成ファイルには、DocumentComposerの動作を制御する各種設定値が定義されています。ユーザはこのファイル定義された以下の設定値を編集することで、DocumentComposerの動作を自由にカスタマイズすることができます。
+構成ファイルには、DocumentComposerの動作を制御する各種設定値が定義されています。ユーザはこのファイルに定義された以下の設定値を編集することで、DocumentComposerの動作を自由にカスタマイズすることができます。
 
 | 設定値名 | 初期値 | 内容 |
 | -- | -- | -- |
