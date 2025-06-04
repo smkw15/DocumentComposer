@@ -7,5 +7,6 @@ docs/src/**/*.txt
 docs/src/**/*.docx
 docs/dest/**/*.txt
 docs/dest/**/*.docx
+.user.yml
 *pyc
 __pycache__
