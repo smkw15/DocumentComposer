@@ -41,7 +41,7 @@ class Docx(Composable):
         Returns:
             Extension: 拡張子。
         """
-        return ".docx"
+        return "docx"
 
     def get_file_path(self) -> pathlib.Path:
         """ファイルのパスを取得する。

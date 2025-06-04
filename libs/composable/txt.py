@@ -39,7 +39,7 @@ class Txt(Composable):
         Returns:
             Extension: 拡張子。
         """
-        return ".txt"
+        return "txt"
 
     def get_file_path(self) -> pathlib.Path:
         """ファイルのパスを取得する。

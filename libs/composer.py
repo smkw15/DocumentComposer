@@ -4,8 +4,13 @@ import pathlib
 import shutil
 from typing import Type, TypeVar
 from libs.composable.base import Composable
+from libs.composable.docx import Docx
+from libs.composable.txt import Txt
 from libs.config import Config
-from libs.constants import CONFIG_FILE_PATH
+from libs.constants import (
+    CONFIG_FILE_PATH,
+    Extension
+)
 
 S = TypeVar("S", bound=Composable)
 D = TypeVar("D", bound=Composable)
@@ -76,10 +81,10 @@ class Composer:
                 str(dest_root_dir_path.resolve())))
             # 出力ファイルのパスを導出
             if src_dir_path.resolve() == src_root_dir_path.resolve():
-                dest_file_name = self.config.dest_root_file_nickname + dest_type.get_extension()
+                dest_file_name = self.config.dest_root_file_nickname + "." + dest_type.get_extension()
                 dest_file_path = dest_dir_path / dest_file_name
             else:
-                dest_file_name = dest_dir_path.name + dest_type.get_extension()
+                dest_file_name = dest_dir_path.name + "." + dest_type.get_extension()
                 dest_file_path = dest_dir_path / pathlib.Path(dest_file_name)
             # コンポーズ実行
             tpl = self.compose(src_dir_path, dest_file_path, False, src_type, dest_type)
@@ -109,7 +114,7 @@ class Composer:
         # 出力先ディレクトリをリセット
         self._reset_dest_dir(dest_file_path.parent, can_reset)
         # ファイル検索
-        src_file_pathes = self._find_pathes(src_dir_path, "*" + src_type.get_extension(), self.config.ignorants)
+        src_file_pathes = self._find_pathes(src_dir_path, "*." + src_type.get_extension(), self.config.ignorants)
         # 読み込み
         src_files = self._read_files(src_file_pathes, src_type)
         # 集積
@@ -162,3 +167,24 @@ class Composer:
         if not dest_dir_path.exists():
             dest_dir_path.mkdir()
             print("# Created:", str(dest_dir_path))
+
+
+T = TypeVar("T", bound=Composable)
+
+
+def get_composable_type(ext: Extension) -> Type[T]:
+    """ファイル種別からComposableの型情報を取得する。
+
+    Args:
+        ext (Extension): ファイル種別。
+
+    Returns:
+        Type[T]: Composableの型情報。
+    """
+    match(ext):
+        case "txt":
+            return Txt
+        case "docx":
+            return Docx
+        case _:
+            return Txt

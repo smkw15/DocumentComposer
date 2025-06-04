@@ -6,16 +6,16 @@ NewlineCode = Literal["LF", "CRLF", "CR"]
 NewlineChar = Literal["\n", "\r\n", "\r"]
 
 # 対応ファイル種別・対応ファイル拡張子
-FileKind = Literal["txt", "docx"]
-Extension = Literal[".txt", ".docx"]
+Extension = Literal["txt", "docx"]
 
 # コマンドライン引数初期値
 SRC_ROOT_DIR_PATH: str = "./docs/src"
 DEST_ROOT_DIR_PATH: str = "./docs/dest"
 CONFIG_FILE_PATH: str = "./config.yml"
-SRC_EXTENSION: FileKind = "txt"
-DEST_EXTENSION: FileKind = "docx"
+SRC_FILE_EXT: Extension = "txt"
+DEST_FILE_EXT: Extension = "docx"
 VERBOSE = False
+GUI = False
 
 # 構成情報初期値
 IGNORANTS: list[str] = []
@@ -34,3 +34,6 @@ HEADER_DISTANCE_MM: float = 19.0
 FOOTER_DISTANCE_MM: float = 19.0
 ENCODING: str = "utf-8"
 NEWLINE_CODE: str = "LF"
+
+# GUIデータ保存先
+SCREEN_FILE_PATH: str = "./.user.yml"
