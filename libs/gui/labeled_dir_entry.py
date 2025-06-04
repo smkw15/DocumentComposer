@@ -70,4 +70,5 @@ class LabeledDirEntry(DCFrame):
         path = tkinter.filedialog.askdirectory(
             mustexist=True,
             initialdir=pathlib.Path(self.initial_path).resolve())
-        self.entry.set_value(path)
+        if path is not None and path != "":
+            self.entry.set_value(path)

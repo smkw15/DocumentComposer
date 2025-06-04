@@ -74,5 +74,5 @@ class LabeledFileEntry(DCFrame):
             initialdir=pathlib.Path(self.initial_path).parent.resolve(),
             initialfile=pathlib.Path(self.initial_path).name,
             filetypes=self.file_types)
-        self.entry.delete(0)
-        self.entry.insert(0, path)
+        if path is not None and path != "":
+            self.entry.set_value(path)

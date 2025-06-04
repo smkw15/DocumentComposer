@@ -12,5 +12,5 @@ class DCEntry(ctk.CTkEntry):
         Args:
             value (str): 値。
         """
-        self.delete(0)
+        self.delete(0, ctk.END)
         self.insert(0, value)
