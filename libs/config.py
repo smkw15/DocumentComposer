@@ -29,7 +29,7 @@ from libs.util import (
 
 
 class ConfigLoader(yaml.SafeLoader):
-    """構成ファイル用の独自YAMLローダー"""
+    """構成ファイル用の独自YAMLローダー。"""
     pass
 
 
