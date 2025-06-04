@@ -177,7 +177,7 @@ class RootScreen(DCScreen):
             initial_path=model.config_file_path,
             file_types=[("構成ファイル", "*.yml;*.yaml")],
             label_width=120)
-        self.entry_config_file.pack(side=tk.TOP)
+        self.entry_config_file.pack(side=tk.TOP, anchor=tk.W, pady=5)
         # 冗長出力チェックボックス
         self.check_verbose = LabeledCheckBox(
             master=self.frame_body,
@@ -233,3 +233,10 @@ def show_root_screen():
     photo = tk.PhotoImage(file=ICON_PATH)  # FIXME: アイコンが表示されない
     root.iconphoto(False, photo)
     root.mainloop()
+    # TODO: スクリーンのサイズに合わせて入力欄が伸びるようように調整
+    # TODO: 実行ボタンの大きさを少し短く
+    # TODO: ログ表示領域を表示
+    # TODO: 処理完了時にスナックバーでも出す
+    # TODO: ツールチップを出す
+    # TODO: GUIについてREADMEの記載
+    # TODO: customtkinterについてライセンス情報の更新
