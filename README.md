@@ -5,6 +5,7 @@ DocumentComposerは、複数の文書ファイルを読み込み、内容を結�
 ## 開発環境
 
 - Windows 11
+- pyenv 3.1.1
 - Python 3.10.6
 - venv
 - pip
