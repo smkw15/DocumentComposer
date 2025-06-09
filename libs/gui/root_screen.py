@@ -142,7 +142,8 @@ class RootScreen(DCScreen):
         if platform.system() == "Windows":
             self.iconbitmap(ICON_PATH_ICO)
         else:
-            self.wm_iconphoto(False, tk.PhotoImage(file=ICON_PATH_PNG))
+            self.icon_photo_image = tk.PhotoImage(file=ICON_PATH_PNG)
+            self.wm_iconphoto(False, self.icon_photo_image)
         # ボディ領域フレーム
         self.frame_body = DCFrame(self)
         self.frame_body.pack(side=tk.TOP, anchor=tk.N, padx=10, pady=10, expand=True, fill="x")
