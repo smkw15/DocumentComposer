@@ -244,6 +244,4 @@ def show_root_screen():
     photo = tk.PhotoImage(file=ICON_PATH)  # FIXME: アイコンが表示されない
     root.iconphoto(False, photo)
     root.mainloop()
-    # TODO: 処理完了時にスナックバーでも出す
-    # TODO: ツールチップを出す
     # TODO: GUIについてREADMEの記載
