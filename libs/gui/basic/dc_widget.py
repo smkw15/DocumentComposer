@@ -6,7 +6,7 @@ from abc import ABC
 
 class DCWidget(ABC):
     """独自ウィジット共通基盤クラス。"""
-    appearance_mode: AppearanceMode = "system"
+    _appearance_mode: AppearanceMode = "system"
 
     @classmethod
     def set_appearance_mode(cls, appearance_mode: AppearanceMode):
@@ -15,5 +15,5 @@ class DCWidget(ABC):
         Args:
             appearance_mode (AppearanceMode): アピアランスモード。
         """
-        cls.appearance_mode = appearance_mode
+        cls._appearance_mode = appearance_mode
         ctk.set_appearance_mode(appearance_mode)

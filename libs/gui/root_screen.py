@@ -20,6 +20,7 @@ from libs.gui.constants import (
     ICON_PATH_ICO,
     ICON_PATH_PNG
 )
+from libs.gui.basic.dc_widget import DCWidget
 from libs.gui.basic.dc_button import DCButton
 from libs.gui.basic.dc_screen import DCScreen
 from libs.gui.basic.dc_frame import DCFrame
@@ -230,4 +231,5 @@ def exec_composer_with_gui():
     """ルートウィンドウを表示する。"""
     model = RootScreenModel.from_yml()
     root = RootScreen(model)
+    DCWidget.set_appearance_mode("dark")
     root.mainloop()
