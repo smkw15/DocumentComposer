@@ -1,16 +1,10 @@
 """メインモジュール。"""
 import argparse
 import dataclasses
-import pathlib
 import yaml
 import logging
 import logging.config
-from typing import Type
-from libs.composer import (
-    Composer,
-    get_composable_type,
-    T
-)
+from libs.composer import exec_composer
 from libs.constants import (
     SRC_ROOT_DIR_PATH,
     DEST_ROOT_DIR_PATH,
@@ -22,13 +16,18 @@ from libs.constants import (
     Extension,
     LOGGING_CONFIG_FILE_PATH,
 )
-from libs.gui.root_screen import show_root_screen
+from libs.gui.root_screen import exec_composer_with_gui
+
+
+class LoggingLoader(yaml.SafeLoader):
+    """ロギング構成ファイル用の独自YAMLローダー。"""
+    pass
 
 
 def initialize_logging():
     """ロギングの初期化を行う。"""
     with open(LOGGING_CONFIG_FILE_PATH) as f:
-        d = yaml.load(f, Loader=yaml.SafeLoader)
+        d = yaml.load(f, Loader=LoggingLoader)
     logging.config.dictConfig(d)
 
 
@@ -40,16 +39,16 @@ class ArgParams:
         src_file_dir (str): 入力元ディレクトリまでのパス。
         dest_file_dir (str): 出力先ディレクトリまでのパス。
         config_file_path (str): 構成ファイルまでのパス。
-        src_file_kind (Extension): 入力ファイルのファイル形式。
-        dest_file_kind (Extension): 出力ファイルのファイル形式。
+        src_file_ext (Extension): 入力ファイルのファイル形式。
+        dest_file_ext (Extension): 出力ファイルのファイル形式。
         verbose (bool): 冗長出力を行うか。
         gui (bool): GUIを使用するか。
     """
     src_dir_path: str
     dest_dir_path: str
     config_file_path: str
-    src_file_kind: Extension
-    dest_file_kind: Extension
+    src_file_ext: Extension
+    dest_file_ext: Extension
     verbose: bool
     gui: bool
 
@@ -79,8 +78,8 @@ def parse_args() -> ArgParams:
         src_dir_path=args.src,
         dest_dir_path=args.dest,
         config_file_path=args.config,
-        src_file_kind=args.x,
-        dest_file_kind=args.y,
+        src_file_ext=args.x,
+        dest_file_ext=args.y,
         verbose=args.verbose,
         gui=args.gui)
 
@@ -91,30 +90,18 @@ def main():
     initialize_logging()
     # 引数解析
     args = parse_args()
-    # GUIで実行する場合は、GUIを呼び出して終了
+    # GUIかコンポーザー実行
     if args.gui:
-        show_root_screen()
-        return
-    # 入出力対象の型を取得
-    src_type: Type[T] = get_composable_type(args.src_file_kind)
-    dest_type: Type[T] = get_composable_type(args.dest_file_kind)
-    # 変換器生成
-    composer = Composer.from_yml(args.config_file_path, logging.getLogger("system"))
-    if args.verbose:
-        composer.compose_verbosely(
-            pathlib.Path(args.src_dir_path),
-            pathlib.Path(args.dest_dir_path),
-            True,
-            src_type,
-            dest_type)
+        exec_composer_with_gui()
     else:
-        dest_file_name = composer.config.dest_root_file_nickname + "." + dest_type.get_extension()
-        composer.compose(
-            pathlib.Path(args.src_dir_path),
-            pathlib.Path(args.dest_dir_path) / pathlib.Path(dest_file_name),
-            True,
-            src_type,
-            dest_type)
+        exec_composer(
+            args.src_dir_path,
+            args.dest_dir_path,
+            args.config_file_path,
+            args.src_file_ext,
+            args.dest_file_ext,
+            args.verbose,
+            "system")
 
 
 if __name__ == "__main__":

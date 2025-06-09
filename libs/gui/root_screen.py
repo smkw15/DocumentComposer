@@ -3,8 +3,6 @@ import tkinter as tk
 import dataclasses
 import yaml
 import pathlib
-import logging
-from typing import Type
 from libs.gui.constants import (
     ROOT_SCREEN_TITLE,
     ROOT_SCREEN_WIDTH,
@@ -20,7 +18,6 @@ from libs.gui.constants import (
     BUTTON_COMPOSE_TEXT,
     ICON_PATH
 )
-from libs.gui.basic.dc_widget import DCWidget
 from libs.gui.basic.dc_button import DCButton
 from libs.gui.basic.dc_screen import DCScreen
 from libs.gui.basic.dc_frame import DCFrame
@@ -42,11 +39,7 @@ from libs.constants import (
     VERBOSE,
 )
 from libs.util import get_newline_char
-from libs.composer import (
-    Composer,
-    get_composable_type,
-    T
-)
+from libs.composer import exec_composer
 
 
 class ScreenLoader(yaml.SafeLoader):
@@ -212,36 +205,24 @@ class RootScreen(DCScreen):
         self.model.dest_file_ext = self.combo_dest_ext.get_value()
         self.model.config_file_path = self.entry_config_file.get_value()
         self.model.verbose = self.check_verbose.get_value()
-        # コンポーズ実行
-        src_type: Type[T] = get_composable_type(self.model.src_file_ext)
-        dest_type: Type[T] = get_composable_type(self.model.dest_file_ext)
-        composer = Composer.from_yml(self.model.config_file_path, logging.getLogger("gui"))
-        if self.model.verbose:
-            composer.compose_verbosely(
-                pathlib.Path(self.model.src_dir_path),
-                pathlib.Path(self.model.dest_dir_path),
-                True,
-                src_type,
-                dest_type)
-        else:
-            dest_file_name = composer.config.dest_root_file_nickname + "." + dest_type.get_extension()
-            composer.compose(
-                pathlib.Path(self.model.src_dir_path),
-                pathlib.Path(self.model.dest_dir_path) / pathlib.Path(dest_file_name),
-                True,
-                src_type,
-                dest_type)
+        exec_composer(
+            self.model.src_dir_path,
+            self.model.dest_dir_path,
+            self.model.config_file_path,
+            self.model.src_file_ext,
+            self.model.dest_file_ext,
+            self.model.verbose,
+            "gui")
 
     def _on_closing(self):
         self.model.dump_yml()  # モデルをファイルに保存
         self.destroy()  # 閉じる処理を明示的に呼ばないと閉じない
 
 
-def show_root_screen():
+def exec_composer_with_gui():
     """ルートウィンドウを表示する。"""
     model = RootScreenModel.from_yml()
     root = RootScreen(model)
     photo = tk.PhotoImage(file=ICON_PATH)  # FIXME: アイコンが表示されない
     root.iconphoto(False, photo)
     root.mainloop()
-    # TODO: GUIについてREADMEの記載

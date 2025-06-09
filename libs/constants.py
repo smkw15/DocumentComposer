@@ -5,7 +5,7 @@ from typing import Literal
 NewlineCode = Literal["LF", "CRLF", "CR"]
 NewlineChar = Literal["\n", "\r\n", "\r"]
 
-# 対応ファイル種別・対応ファイル拡張子
+# 対応ファイル形式(拡張子)
 Extension = Literal["txt", "docx"]
 
 # コマンドライン引数初期値
@@ -39,5 +39,5 @@ NEWLINE_CODE: str = "LF"
 SCREEN_FILE_PATH: str = "./.user.yml"
 
 # ロギング構成ファイル
-LOGGER = Literal["system", "gui"]
+LoggerName = Literal["system", "gui"]
 LOGGING_CONFIG_FILE_PATH: str = "logging.yml"

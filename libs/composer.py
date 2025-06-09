@@ -10,7 +10,8 @@ from libs.composable.txt import Txt
 from libs.config import Config
 from libs.constants import (
     CONFIG_FILE_PATH,
-    Extension
+    Extension,
+    LoggerName
 )
 
 S = TypeVar("S", bound=Composable)
@@ -199,3 +200,45 @@ def get_composable_type(ext: Extension) -> Type[T]:
             return Docx
         case _:
             return Txt
+
+
+def exec_composer(
+    src_dir_path: str,
+    dest_dir_path: str,
+    config_file_path: str,
+    src_file_ext: Extension,
+    dest_file_ext: Extension,
+    verbose: bool,
+    logger_name: LoggerName
+):
+    """コンポーザーを実行する。
+
+    Args:
+        src_dir_path (str): 入力元ディレクトリまでのパス。
+        dest_dir_path (str): 出力先ディレクトリまでのパス。
+        config_file_path (str): 構成ファイルまでのパス。
+        src_file_ext (Extension): 入力ファイルのファイル形式。
+        dest_file_ext (Extension): 出力ファイルのファイル形式。
+        verbose (bool): 冗長出力を行うか。
+        logger_name (LoggerName): ロガー名。
+    """
+    # 入出力対象の型を取得
+    src_type: Type[T] = get_composable_type(src_file_ext)
+    dest_type: Type[T] = get_composable_type(dest_file_ext)
+    # コンポーザー生成
+    composer = Composer.from_yml(config_file_path, logging.getLogger(logger_name))
+    if verbose:
+        composer.compose_verbosely(
+            pathlib.Path(src_dir_path),
+            pathlib.Path(dest_dir_path),
+            True,
+            src_type,
+            dest_type)
+    else:
+        dest_file_name = composer.config.dest_root_file_nickname + "." + dest_type.get_extension()
+        composer.compose(
+            pathlib.Path(src_dir_path),
+            pathlib.Path(dest_dir_path) / pathlib.Path(dest_file_name),
+            True,
+            src_type,
+            dest_type)
