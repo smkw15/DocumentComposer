@@ -3,6 +3,7 @@ import tkinter as tk
 import dataclasses
 import yaml
 import pathlib
+import platform
 from libs.gui.constants import (
     ROOT_SCREEN_TITLE,
     ROOT_SCREEN_WIDTH,
@@ -16,7 +17,8 @@ from libs.gui.constants import (
     LABEL_CONFIG_TEXT,
     LABEL_VERBOSE_TEXT,
     BUTTON_COMPOSE_TEXT,
-    ICON_PATH
+    ICON_PATH_ICO,
+    ICON_PATH_PNG
 )
 from libs.gui.basic.dc_button import DCButton
 from libs.gui.basic.dc_screen import DCScreen
@@ -137,6 +139,10 @@ class RootScreen(DCScreen):
         self.minsize(ROOT_SCREEN_MIN_WIDTH, ROOT_SCREEN_MIN_HEIGHT)
         self.model = model
         self.protocol("WM_DELETE_WINDOW", self._on_closing)
+        if platform.system() == "Windows":
+            self.iconbitmap(ICON_PATH_ICO)
+        else:
+            self.wm_iconphoto(False, tk.PhotoImage(file=ICON_PATH_PNG))
         # ボディ領域フレーム
         self.frame_body = DCFrame(self)
         self.frame_body.pack(side=tk.TOP, anchor=tk.N, padx=10, pady=10, expand=True, fill="x")
@@ -223,6 +229,4 @@ def exec_composer_with_gui():
     """ルートウィンドウを表示する。"""
     model = RootScreenModel.from_yml()
     root = RootScreen(model)
-    photo = tk.PhotoImage(file=ICON_PATH)  # FIXME: アイコンが表示されない
-    root.iconphoto(False, photo)
     root.mainloop()

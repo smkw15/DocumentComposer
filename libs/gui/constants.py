@@ -6,7 +6,8 @@ AppearanceMode = Literal["system", "light", "dark"]
 FONT_FAMILY = "meiryo"
 FONT_SIZE_STD = 11
 
-ICON_PATH = "./resources/icon16.png"
+ICON_PATH_ICO = "./resources/icon64.ico"
+ICON_PATH_PNG = "./resources/icon64.png"
 
 ROOT_SCREEN_TITLE = "Document Composer"
 ROOT_SCREEN_WIDTH = 640
