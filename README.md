@@ -29,17 +29,17 @@ python3 -m pip install --upgrade pip
 # Python依存パッケージのインストール(仮想環境構築時の初回のみ)
 pip install -r requirements.txt
 
-# 仮想環境終了(仮想環境内で)
+# 仮想環境終了
 deactivate
 ```
 
 ■仮想環境(Linux / Mac OS):
 
 ```sh
-# 仮想環境起動
+# 仮想環境構築
 python3 -m venv env
 
-# 仮想環境起動(Linux系の場合)
+# 仮想環境起動
 source env/bin/activate
 
 # pip更新
@@ -48,7 +48,7 @@ python3 -m pip install --upgrade pip
 # Python依存パッケージのインストール(仮想環境構築時の初回のみ)
 pip install -r requirements.txt
 
-# 仮想環境終了(仮想環境内で)
+# 仮想環境終了
 deactivate
 ```
 
@@ -86,7 +86,7 @@ deactivate
 
 ## 使用方法
 
-仮想環境を起動させ、DocumentComposerのメインモジュールを実行します。メインモジュールが終了すると、出力先ディレクトリに出力ファイルが生成されています。
+仮想環境を起動させ、DocumentComposerのメインモジュールを実行します。メインモジュールが終了すると、出力先ディレクトリに出力ファイルが生成されています。なお、以下のコマンドはWindowsでもLinux/Mac OSでも同様です。
 
 ```sh
 python3 main.py
@@ -114,7 +114,7 @@ python3 main.py
 
 ### 構成ファイルオプション
 
-`--confing`(ショートハンド: `-c`)は、構成ファイルオプションです。構成ファイルオプションには、構成ファイルまでのパスを渡します。
+`--config`(ショートハンド: `-c`)は、構成ファイルオプションです。構成ファイルオプションには、構成ファイルまでのパスを渡します。
 
 構成ファイルには、DocumentComposerの動作を制御する各種設定値が定義されています。ユーザはこのファイルに定義された以下の設定値を編集することで、DocumentComposerの動作を自由にカスタマイズすることができます。
 
@@ -189,8 +189,4 @@ python3 main.py
 
 ### GUIオプション
 
-`--gui`(ショートハンド: `-g`)は、GUIオプションです。GUIオプションを渡すと、GUIを利用してDocumentComposerを実行することができます。
-
-GUIオプションを利用した場合、その他のコマンドライン引数は無視されます。
-
-GUIを利用してDocumentComposerを実行すると、入力した値がユーザ入力ファイルに保存されます。それらの値は、次回ユーザGUIを利用した際に初期値として扱われます。
+`--gui`(ショートハンド: `-g`)は、GUIオプションです。GUIオプションを渡すと、GUIを利用してDocumentComposerを実行することができます。GUIオプションを利用した場合、その他のコマンドライン引数は無視されます。GUIでは、コマンドラインで実行する場合と同様な値を設定することができ、「実行」ボタンを押下することで、DocumentComposerの処理を呼び出すことができます(ログも表示されます)。なお、GUIで入力した値は、コンポーズ実行時にユーザ入力ファイルに保存され、次回ユーザがGUIを利用した際に復元されます。
