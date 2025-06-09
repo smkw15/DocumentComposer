@@ -180,7 +180,7 @@ class RootScreen(DCScreen):
             master=self.frame_body,
             label_text=LABEL_CONFIG_TEXT,
             initial_path=model.config_file_path,
-            file_types=[("構成ファイル", "*.yml;*.yaml")],
+            file_types=[("構成ファイル", "*.yml"), ("構成ファイル", "*.yaml")],
             label_width=120)
         self.entry_config_file.pack(side=tk.TOP, anchor=tk.W, pady=5, expand=True, fill="x")
         # 冗長出力チェックボックス
