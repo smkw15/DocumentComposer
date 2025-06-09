@@ -37,3 +37,7 @@ NEWLINE_CODE: str = "LF"
 
 # GUIデータ保存先
 SCREEN_FILE_PATH: str = "./.user.yml"
+
+# ロギング構成ファイル
+LOGGER = Literal["system", "gui"]
+LOGGING_CONFIG_FILE_PATH: str = "logging.yml"

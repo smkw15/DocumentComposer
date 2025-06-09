@@ -2,6 +2,9 @@
 import argparse
 import dataclasses
 import pathlib
+import yaml
+import logging
+import logging.config
 from typing import Type
 from libs.composer import (
     Composer,
@@ -16,9 +19,17 @@ from libs.constants import (
     DEST_FILE_EXT,
     VERBOSE,
     GUI,
-    Extension
+    Extension,
+    LOGGING_CONFIG_FILE_PATH,
 )
 from libs.gui.root_screen import show_root_screen
+
+
+def initialize_logging():
+    """ロギングの初期化を行う。"""
+    with open(LOGGING_CONFIG_FILE_PATH) as f:
+        d = yaml.load(f, Loader=yaml.SafeLoader)
+    logging.config.dictConfig(d)
 
 
 @dataclasses.dataclass
@@ -76,6 +87,8 @@ def parse_args() -> ArgParams:
 
 def main():
     """メイン処理"""
+    # ロギング初期化
+    initialize_logging()
     # 引数解析
     args = parse_args()
     # GUIで実行する場合は、GUIを呼び出して終了
@@ -86,7 +99,7 @@ def main():
     src_type: Type[T] = get_composable_type(args.src_file_kind)
     dest_type: Type[T] = get_composable_type(args.dest_file_kind)
     # 変換器生成
-    composer = Composer.from_yml(args.config_file_path)
+    composer = Composer.from_yml(args.config_file_path, logging.getLogger("system"))
     if args.verbose:
         composer.compose_verbosely(
             pathlib.Path(args.src_dir_path),

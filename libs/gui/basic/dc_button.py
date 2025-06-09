@@ -1,14 +1,11 @@
 """DocumentComposer向けボタンモジュール。"""
 import customtkinter as ctk
-from typing import Any, Union, Optional, Tuple, Callable
-from libs.gui.constants import (
-    BUTTON_FG_COLOR,
-    BUTTON_HOVER_COLOR,
-)
+from typing import Any, Union, Optional, Callable
 from libs.gui.basic.dc_font import DCFont
+from libs.gui.basic.dc_widget import DCWidget
 
 
-class DCButton(ctk.CTkButton):
+class DCButton(ctk.CTkButton, DCWidget):
     """独自ボタンラッパークラス。"""
 
     def __init__(
@@ -16,8 +13,6 @@ class DCButton(ctk.CTkButton):
         master: Any,
         text: str,
         command: Callable[[], Any],
-        fg_color: Optional[Union[str, Tuple[str, str]]] = BUTTON_FG_COLOR,
-        hover_color: Optional[Union[str, Tuple[str, str]]] = BUTTON_HOVER_COLOR,
         font: Optional[Union[tuple, DCFont]] = None,
         **kwargs
     ):
@@ -26,7 +21,6 @@ class DCButton(ctk.CTkButton):
             master,
             text=text,
             command=command,
-            fg_color=fg_color,
-            hover_color=hover_color,
+            bg_color="transparent",
             font=DCFont(weight="bold") if font is None else font,
             **kwargs)

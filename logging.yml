@@ -1,0 +1,29 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+  system:
+    format: "%(asctime)s: %(name)s: %(levelname)s: %(message)s"
+  gui:
+    format: "%(asctime)s: %(message)s"
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: system
+    level: DEBUG
+    stream: ext://sys.stdout
+  gui:
+    class: libs.gui.logging_textbox.GuiHandler
+    formatter: gui
+    level: INFO
+loggers:
+  system:
+    level: DEBUG
+    handlers:
+      - console
+    progate: true
+  gui:
+    level: INFO
+    handlers:
+      - console
+      - gui
+    progate: true

@@ -3,10 +3,14 @@ import tkinter as tk
 import dataclasses
 import yaml
 import pathlib
+import logging
 from typing import Type
 from libs.gui.constants import (
     ROOT_SCREEN_TITLE,
-    ROOT_SCREEN_SIZE,
+    ROOT_SCREEN_WIDTH,
+    ROOT_SCREEN_HEIGHT,
+    ROOT_SCREEN_MIN_WIDTH,
+    ROOT_SCREEN_MIN_HEIGHT,
     LABEL_SRC_DIR_TEXT,
     LABEL_SRC_EXT_TEXT,
     LABEL_DEST_DIR_TEXT,
@@ -16,6 +20,7 @@ from libs.gui.constants import (
     BUTTON_COMPOSE_TEXT,
     ICON_PATH
 )
+from libs.gui.basic.dc_widget import DCWidget
 from libs.gui.basic.dc_button import DCButton
 from libs.gui.basic.dc_screen import DCScreen
 from libs.gui.basic.dc_frame import DCFrame
@@ -23,6 +28,7 @@ from libs.gui.labeled_dir_entry import LabeledDirEntry
 from libs.gui.labeled_ext_combo_box import LabeledExtComboBox
 from libs.gui.labeled_file_entry import LabeledFileEntry
 from libs.gui.labeled_check_box import LabeledCheckBox
+from libs.gui.logging_textbox import LoggingTextbox
 from libs.constants import (
     Extension,
     SCREEN_FILE_PATH,
@@ -134,21 +140,20 @@ class RootScreen(DCScreen):
             model (RootScreenModel): 入力値を格納して内外とやりとりするデータモデル。
         """
         # ウィンドウ設定
-        super().__init__(
-            title=ROOT_SCREEN_TITLE,
-            size=ROOT_SCREEN_SIZE)
+        super().__init__(title=ROOT_SCREEN_TITLE, size=f"{ROOT_SCREEN_WIDTH}x{ROOT_SCREEN_HEIGHT}")
+        self.minsize(ROOT_SCREEN_MIN_WIDTH, ROOT_SCREEN_MIN_HEIGHT)
         self.model = model
         self.protocol("WM_DELETE_WINDOW", self._on_closing)
-        # ボディフレーム
+        # ボディ領域フレーム
         self.frame_body = DCFrame(self)
-        self.frame_body.pack(anchor=tk.CENTER, pady=10)
+        self.frame_body.pack(side=tk.TOP, anchor=tk.N, padx=10, pady=10, expand=True, fill="x")
         # 入力元ディレクトリ入力欄
         self.entry_src_dir = LabeledDirEntry(
             master=self.frame_body,
             label_text=LABEL_SRC_DIR_TEXT,
             initial_path=model.src_dir_path,
             label_width=120)
-        self.entry_src_dir.pack(side=tk.TOP, pady=5)
+        self.entry_src_dir.pack(side=tk.TOP, anchor=tk.W, pady=5, expand=True, fill="x")
         # 入力ファイル形式選択欄
         self.combo_src_ext = LabeledExtComboBox(
             master=self.frame_body,
@@ -162,7 +167,7 @@ class RootScreen(DCScreen):
             label_text=LABEL_DEST_DIR_TEXT,
             initial_path=model.dest_dir_path,
             label_width=120)
-        self.entry_dest_dir.pack(side=tk.TOP, pady=5)
+        self.entry_dest_dir.pack(side=tk.TOP, anchor=tk.W, pady=5, expand=True, fill="x")
         # 出力ファイル形式選択欄
         self.combo_dest_ext = LabeledExtComboBox(
             master=self.frame_body,
@@ -170,14 +175,14 @@ class RootScreen(DCScreen):
             value=model.dest_file_ext,
             label_width=120)
         self.combo_dest_ext.pack(side=tk.TOP, anchor=tk.W, pady=5)
-        # 構成ファイル選択欄
+        # 構成ファイル入力欄
         self.entry_config_file = LabeledFileEntry(
             master=self.frame_body,
             label_text=LABEL_CONFIG_TEXT,
             initial_path=model.config_file_path,
             file_types=[("構成ファイル", "*.yml;*.yaml")],
             label_width=120)
-        self.entry_config_file.pack(side=tk.TOP, anchor=tk.W, pady=5)
+        self.entry_config_file.pack(side=tk.TOP, anchor=tk.W, pady=5, expand=True, fill="x")
         # 冗長出力チェックボックス
         self.check_verbose = LabeledCheckBox(
             master=self.frame_body,
@@ -185,13 +190,19 @@ class RootScreen(DCScreen):
             value=model.verbose,
             label_width=120)
         self.check_verbose.pack(side=tk.TOP, anchor=tk.W, pady=5)
+        # サブミット領域フレーム
+        self.frame_submit = DCFrame(self.frame_body)
+        self.frame_submit.pack(side=tk.TOP, anchor=tk.W, pady=5, expand=True, fill="both")
         # コンポーズボタン
         self.button_compose = DCButton(
-            self.frame_body,
+            master=self.frame_submit,
             text=BUTTON_COMPOSE_TEXT,
             command=self._on_click_button_submit,
             width=120)
-        self.button_compose.pack(side=tk.TOP, anchor=tk.W, pady=5)
+        self.button_compose.pack(side=tk.LEFT, anchor=tk.N)
+        # ログ表示領域
+        self.textbox_logging = LoggingTextbox(master=self.frame_submit)
+        self.textbox_logging.pack(side=tk.LEFT, anchor=tk.N, padx=5, expand=True, fill="both")
 
     def _on_click_button_submit(self):
         # ユーザ設定値をモデルに抽出
@@ -204,7 +215,7 @@ class RootScreen(DCScreen):
         # コンポーズ実行
         src_type: Type[T] = get_composable_type(self.model.src_file_ext)
         dest_type: Type[T] = get_composable_type(self.model.dest_file_ext)
-        composer = Composer.from_yml(self.model.config_file_path)
+        composer = Composer.from_yml(self.model.config_file_path, logging.getLogger("gui"))
         if self.model.verbose:
             composer.compose_verbosely(
                 pathlib.Path(self.model.src_dir_path),
@@ -233,9 +244,6 @@ def show_root_screen():
     photo = tk.PhotoImage(file=ICON_PATH)  # FIXME: アイコンが表示されない
     root.iconphoto(False, photo)
     root.mainloop()
-    # TODO: スクリーンのサイズに合わせて入力欄が伸びるようように調整
-    # TODO: 実行ボタンの大きさを少し短く
-    # TODO: ログ表示領域を表示
     # TODO: 処理完了時にスナックバーでも出す
     # TODO: ツールチップを出す
     # TODO: GUIについてREADMEの記載

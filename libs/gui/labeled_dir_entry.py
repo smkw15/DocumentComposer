@@ -47,9 +47,9 @@ class LabeledDirEntry(DCFrame):
             font=font)
         self.label.pack(side=tk.LEFT)
         # エントリー
-        self.entry = DCEntry(self, width=700)
+        self.entry = DCEntry(self, width=120)
         self.entry.set_value(initial_path)
-        self.entry.pack(side=tk.LEFT)
+        self.entry.pack(side=tk.LEFT, expand=True, fill="x")
         # ボタン
         self.button = DCButton(
             self,

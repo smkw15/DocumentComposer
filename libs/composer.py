@@ -2,6 +2,7 @@
 import os
 import pathlib
 import shutil
+import logging
 from typing import Type, TypeVar
 from libs.composable.base import Composable
 from libs.composable.docx import Docx
@@ -19,37 +20,41 @@ D = TypeVar("D", bound=Composable)
 class Composer:
     """コンポーザー。"""
 
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, logger: logging.Logger = None):
         """コンストラクタ。
 
         Args:
             config (Config): 構成情報。
+            logger (logging.Logger): ロガー。
         """
         self.config: Config = config
+        self.logger: logging.Logger = logger
 
     @classmethod
-    def from_dict(cls, d: dict) -> 'Composer':
+    def from_dict(cls, d: dict, logger: logging.Logger = None) -> 'Composer':
         """辞書からインスタンスを生成する。
 
         Args:
             d (dict): 辞書。
+            logger (logging.Logger): ロガー。
 
         Returns:
             Converter: インスタンス。
         """
-        return cls(Config.from_dict(d))
+        return cls(Config.from_dict(d), logger=logger)
 
     @classmethod
-    def from_yml(cls, config_file_path: str = CONFIG_FILE_PATH) -> 'Composer':
+    def from_yml(cls, config_file_path: str = CONFIG_FILE_PATH, logger: logging.Logger = None) -> 'Composer':
         """YAMLファイルからインスタンスを生成する。
 
         Args:
             config_file_path (str): 構成ファイルまでのパス。
+            logger (logging.Logger): ロガー。
 
         Return:
             Converter: インスタンス。
         """
-        return cls(Config.from_yml(config_file_path))
+        return cls(Config.from_yml(config_file_path), logger=logger)
 
     def compose_verbosely(
         self,
@@ -122,7 +127,7 @@ class Composer:
         self._accumulate_lines(src_files, dest_file)
         # 書き込み
         dest_file.write_file()
-        print("# Created:", str(dest_file_path))
+        self._log(f"Created: {str(dest_file_path)}")
         return (src_files, dest_file)
 
     def _find_pathes(
@@ -146,7 +151,7 @@ class Composer:
             src_file = src_type.new_file(src_file_path, self.config)
             src_file.read_file()
             ret.append(src_file)
-            print("# Loaded:", str(src_file_path))
+            self._log(f"Loaded: {str(src_file_path)}")
         return ret
 
     def _accumulate_lines(
@@ -163,10 +168,16 @@ class Composer:
     def _reset_dest_dir(self, dest_dir_path: pathlib.Path, can_reset: bool):
         if can_reset and dest_dir_path.exists():
             shutil.rmtree(str(dest_dir_path))
-            print("# Removed:", str(dest_dir_path))
+            self._log(f"Removed: {str(dest_dir_path)}")
         if not dest_dir_path.exists():
             dest_dir_path.mkdir()
-            print("# Created:", str(dest_dir_path))
+            self._log(f"Created: {str(dest_dir_path)}")
+
+    def _log(self, s: str, level: int = logging.INFO, *args, **kwargs):
+        if self.logger is None:
+            print(s)
+        else:
+            self.logger._log(level, s, args, **kwargs)
 
 
 T = TypeVar("T", bound=Composable)
