@@ -247,4 +247,3 @@ def show_root_screen():
     # TODO: 処理完了時にスナックバーでも出す
     # TODO: ツールチップを出す
     # TODO: GUIについてREADMEの記載
-    # TODO: customtkinterについてライセンス情報の更新
