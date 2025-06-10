@@ -65,13 +65,14 @@ deactivate
 │　│　├─📄activate.bat  👈仮想環境起動バッチ
 │　│　└─📄deactivate.bat  👈仮想環境終了バッチ
 │　└─📄*.*  👈その他の仮想環境設定ファイル
-├─📁lib  👈DocumentComposerのPythonライブラリ
+├─📁libs  👈DocumentComposerのPythonライブラリ
+├─📁resources  👈画像などのリースファイル
 ├─🐍main.py  👈DocumentComposerのメインモジュール(エントリーポイント)
 ├─📄.flake8  👈flake8設定ファイル
 ├─📄.user.yml  👈ユーザ入力ファイル(GUI用)
 ├─📄config.yml  👈DocumentComposerの構成ファイル
 ├─⚖️LICENSE.txt  👈ライセンス情報ファイル
-├─📄logging.yml  👈ロギング構成ファイル。
+├─📄logging.yml  👈ロギング構成ファイル
 └─📄requirements.txt  👈依存ライブラリ設定ファイル
 ```
 
