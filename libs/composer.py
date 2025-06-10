@@ -171,7 +171,7 @@ class Composer:
             shutil.rmtree(str(dest_dir_path))
             self._log(f"Removed: {str(dest_dir_path)}")
         if not dest_dir_path.exists():
-            dest_dir_path.mkdir()
+            dest_dir_path.mkdir(parents=True)
             self._log(f"Created: {str(dest_dir_path)}")
 
     def _log(self, s: str, level: int = logging.INFO, *args, **kwargs):
