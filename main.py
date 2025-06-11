@@ -5,6 +5,7 @@ import dataclasses
 import yaml
 import logging
 import logging.config
+import pathlib
 from libs.composer import exec_composer
 from libs.constants import (
     SRC_ROOT_DIR_PATH,
@@ -12,10 +13,9 @@ from libs.constants import (
     CONFIG_FILE_PATH,
     SRC_FILE_EXT,
     DEST_FILE_EXT,
-    VERBOSE,
-    GUI,
     Extension,
     LOGGING_CONFIG_FILE_PATH,
+    LOGGING_DIR
 )
 from libs.gui.root_screen import exec_composer_with_gui
 
@@ -27,6 +27,11 @@ class LoggingLoader(yaml.SafeLoader):
 
 def initialize_logging():
     """ロギングの初期化を行う。"""
+    # ファイルハンドラー用の出力先を用意
+    logging_dir_path = pathlib.Path(LOGGING_DIR)
+    if not logging_dir_path.exists():
+        logging_dir_path.mkdir()
+    # ロギング構成ファイルから読みだしてロガー作成
     with open(LOGGING_CONFIG_FILE_PATH) as f:
         d = yaml.load(f, Loader=LoggingLoader)
     logging.config.dictConfig(d)

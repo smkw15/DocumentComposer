@@ -3,6 +3,8 @@ env
 venv
 .env
 .venv
+logs
+.logs
 docs/src/**/*.txt
 docs/src/**/*.docx
 docs/dest/**/*.txt

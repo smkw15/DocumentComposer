@@ -40,4 +40,5 @@ SCREEN_FILE_PATH: str = "./.user.yml"
 
 # ロギング構成ファイル
 LoggerName = Literal["system", "gui"]
-LOGGING_CONFIG_FILE_PATH: str = "logging.yml"
+LOGGING_CONFIG_FILE_PATH: str = "./logging.yml"
+LOGGING_DIR: str = "./.logs"

@@ -11,6 +11,16 @@ handlers:
     formatter: system
     level: DEBUG
     stream: ext://sys.stdout
+  file:
+    class: logging.handlers.TimedRotatingFileHandler
+    formatter: system
+    level: INFO
+    filename: .logs/app.log
+    when: W6
+    interval: 1
+    backupCount: 12
+    utc: False
+    encoding: utf-8
   gui:
     class: libs.gui.logging_textbox.GuiHandler
     formatter: gui
@@ -25,5 +35,6 @@ loggers:
     level: INFO
     handlers:
       - console
+      - file
       - gui
     progate: true
