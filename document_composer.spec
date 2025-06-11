@@ -1,8 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-# NOTE: いちいちbuildやdistが残っているか気にするのは面倒なので開始時に全部消す
-import shutil
-
 a = Analysis(
     ['main.py'],
     pathex=[],
@@ -54,6 +51,8 @@ coll = COLLECT(
 )
 
 # NOTE: 構成ファイルやリソースファイルなどがバイナリの階層に作られるので無理やり移動させる
+import shutil
+
 shutil.move('./dist/document_composer/_internal/config.yml', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/logging.yml', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/README.md', './dist/document_composer')
