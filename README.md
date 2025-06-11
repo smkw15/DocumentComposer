@@ -63,6 +63,8 @@ deactivate
 │　└─📄*.*  👈その他の仮想環境設定ファイル
 ├─📁.github  👈GitHub設定ディレクトリ
 ├─📁.logs  👈ロギング出力ディレクトリ
+├─📁build  👈配布物用ビルドファイルディレクトリ
+├─📁dist  👈配布物用ディレクトリ
 ├─📁docs
 │　├─📁dest  👈デフォルトの出力先ディレクトリ(実行時自動作成)
 │　└─📁src  👈デフォルトの入力元ディレクトリ
@@ -72,6 +74,7 @@ deactivate
 ├─📄.gitignore  👈Gitのignore設定ファイル
 ├─📄.user.yml  👈ユーザ入力ファイル(GUI用)
 ├─📄config.yml  👈DocumentComposerの構成ファイル
+├─📄document_composer.spec  👈配布物作成用仕様ファイル
 ├─⚖️LICENSE.txt  👈ライセンス情報ファイル
 ├─📄logging.yml  👈ロギング構成ファイル
 ├─🐍main.py  👈DocumentComposerのメインモジュール(エントリーポイント)
@@ -191,3 +194,46 @@ python3 main.py
 `--gui`(ショートハンド: `-g`)は、GUIオプションです。GUIオプションを渡すと、GUIを利用してDocumentComposerを実行することができます。GUIオプションを利用した場合、その他のコマンドライン引数は無視されます。GUIでは、コマンドラインで実行する場合と同様な値を設定することができ、「実行」ボタンを押下することで、DocumentComposerの処理を呼び出すことができます(ログも表示されます)。なお、GUIで入力した値は、コンポーズ実行時にユーザ入力ファイルに保存され、次回ユーザがGUIを利用した際に復元されます。
 
 ![image](./resources/gui.png)
+
+## ロギング
+
+DocumentComposerは、ロギング構成ファイルの定義に基づいてロギングを行います。ロギングによってログファイルが作成される場合、ログローテーションの初期設定は、以下の通りです。
+
+| 設定値名 | 初期値 | 説明 |
+| -- | -- | -- |
+| `when` | `W6` | 毎週日曜日深夜 |
+| `interval` | `1` | 1週間ごと |
+| `backupCount` | `12` | 最大3か月分(12週間分) |
+| `utc` | `False` | 現地時間で |
+
+## 配布方法
+
+DocumentComposerでは、[PyInstaller](https://github.com/pyinstaller/pyinstaller)を利用した実行ファイルの作成に対応しています。実行ファイルを作成するには、仮想環境を起動させ、以下のコマンドを実行します。
+
+```sh
+pyinstaller --clean document_composer.spec
+```
+
+コマンドが終了すると、配布物用ディレクトリに実行ファイルとそれに関連したファイルが作成されます。
+
+```txt
+./
+├─📁build
+├─📁dist
+│　└─📁document_composer
+│　　　├─📁_internal
+│　　　│　└─📄各種バイナリ(dll, pydなど)
+│　　　├─📁resources
+│　　　│　├─🖼️icon64.ico
+│　　　│　└─🖼️icon64.png
+│　　　├─📄config.yml
+│　　　├─📄logging.yml
+│　　　├─📄README.md
+│　　　├─📄LICENSE.txt
+│　　　├─📦document_composer.zip
+│　　　└─🤖document_composer.exe
+├─📄document_composer.spec
+└─📄main.py
+```
+
+配布するべきファイルは、`dist/document_composer`ディレクトリに存在するすべでのファイル・フォルダです。しかし、実際には、`document_composer.zip`が配布すべきものをすべて含んでいるので、このファイル1つを配布すれば済むようになっています。
