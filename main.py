@@ -72,8 +72,8 @@ def parse_args() -> ArgParams:
     parser.add_argument("--config", "-c", help="構成ファイルまでのパス。", default=CONFIG_FILE_PATH, type=str)
     parser.add_argument("-x", help="入力ファイルのファイル形式。", default=SRC_FILE_EXT, type=str)
     parser.add_argument("-y", help="出力ファイルのファイル形式。", default=DEST_FILE_EXT, type=str)
-    parser.add_argument("--verbose", "-v", help="冗長出力を行うか。", action="store_false" if VERBOSE else "store_true")
-    parser.add_argument("--gui", "-g", help="GUIを使用するか。", action="store_false" if GUI else "store_true")
+    parser.add_argument("--verbose", "-v", help="冗長出力を行うか。", action="store_true")
+    parser.add_argument("--gui", "-g", help="GUIを使用するか。", action="store_true")
     args = parser.parse_args()
     return ArgParams(
         src_dir_path=args.src,
