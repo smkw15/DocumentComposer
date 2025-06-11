@@ -236,4 +236,4 @@ pyinstaller --clean document_composer.spec
 └─📄main.py
 ```
 
-配布するべきファイルは、`dist/document_composer`ディレクトリに存在するすべでのファイル・フォルダです。しかし、実際には、`document_composer.zip`が配布すべきものをすべて含んでいるので、このファイル1つを配布すれば済むようになっています。
+配布するべきものは、`dist/document_composer`ディレクトリに存在するすべてのファイル・フォルダです。しかし、実際には、`document_composer.zip`がそれらすべてを含んでいるので、このZIPファイル1つを配布すれば済むようになっています。
