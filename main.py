@@ -1,4 +1,5 @@
 """メインモジュール。"""
+import sys
 import argparse
 import dataclasses
 import yaml
@@ -88,6 +89,10 @@ def main():
     """メイン処理"""
     # ロギング初期化
     initialize_logging()
+    # exeからの機動の場合は強制的にGUIで起動
+    if getattr(sys, "frozen", False):
+        exec_composer_with_gui()
+        return
     # 引数解析
     args = parse_args()
     # GUIかコンポーザー実行
