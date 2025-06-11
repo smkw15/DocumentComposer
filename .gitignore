@@ -8,5 +8,7 @@ docs/src/**/*.docx
 docs/dest/**/*.txt
 docs/dest/**/*.docx
 .user.yml
+build
+dist
 *pyc
 __pycache__
