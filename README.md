@@ -18,15 +18,15 @@ DocumentComposerは、複数の文書ファイルを読み込み、内容を結�
 
 ```sh
 # 仮想環境構築
-python3 -m venv env
+python3 -m venv .env
 
 # 仮想環境起動
-.\env\Scripts\activate
+.\.env\Scripts\activate
 
 # pip更新
 python3 -m pip install --upgrade pip
 
-# Python依存パッケージのインストール(仮想環境構築時の初回のみ)
+# Python依存パッケージのインストール
 pip install -r requirements.txt
 
 # 仮想環境終了
@@ -37,15 +37,15 @@ deactivate
 
 ```sh
 # 仮想環境構築
-python3 -m venv env
+python3 -m venv .env
 
 # 仮想環境起動
-source env/bin/activate
+source .env/bin/activate
 
 # pip更新
 python3 -m pip install --upgrade pip
 
-# Python依存パッケージのインストール(仮想環境構築時の初回のみ)
+# Python依存パッケージのインストール
 pip install -r requirements.txt
 
 # 仮想環境終了
@@ -56,23 +56,25 @@ deactivate
 
 ```txt
 📁./
-├─📁.github  👈GitHub設定ディレクトリ
-├─📁docs
-│　├─📁dest  👈出力先ディレクトリ(実行時自動作成)
-│　└─📁src  👈入力元ディレクトリ
-├─📁env
+├─📁.env
 │　├─📁Scripts
 │　│　├─📄activate.bat  👈仮想環境起動バッチ
 │　│　└─📄deactivate.bat  👈仮想環境終了バッチ
 │　└─📄*.*  👈その他の仮想環境設定ファイル
+├─📁.github  👈GitHub設定ディレクトリ
+├─📁.logs  👈ロギング出力ディレクトリ
+├─📁docs
+│　├─📁dest  👈デフォルトの出力先ディレクトリ(実行時自動作成)
+│　└─📁src  👈デフォルトの入力元ディレクトリ
 ├─📁libs  👈DocumentComposerのPythonライブラリ
 ├─📁resources  👈画像などのリースファイル
-├─🐍main.py  👈DocumentComposerのメインモジュール(エントリーポイント)
 ├─📄.flake8  👈flake8設定ファイル
+├─📄.gitignore  👈Gitのignore設定ファイル
 ├─📄.user.yml  👈ユーザ入力ファイル(GUI用)
 ├─📄config.yml  👈DocumentComposerの構成ファイル
 ├─⚖️LICENSE.txt  👈ライセンス情報ファイル
 ├─📄logging.yml  👈ロギング構成ファイル
+├─🐍main.py  👈DocumentComposerのメインモジュール(エントリーポイント)
 └─📄requirements.txt  👈依存ライブラリ設定ファイル
 ```
 
