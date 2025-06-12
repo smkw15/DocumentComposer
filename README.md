@@ -229,13 +229,19 @@ pyinstaller --clean document_composer.spec
 │　└─📁document_composer
 │　　　├─📁_internal
 │　　　│　└─📄各種バイナリ(dll, pydなど)
+│　　　├─📁manuals
+│　　　│　├─🖼️gui.png
+│　　　│　├─🖼️icon64.png
+│　　　│　├─🖼️icon64.png
+│　　　│　├─📄manual.html
+│　　　│　└─📄manual.css
 │　　　├─📁resources
 │　　　│　├─🖼️icon64.ico
 │　　　│　└─🖼️icon64.png
 │　　　├─📄config.yml
 │　　　├─📄logging.yml
 │　　　├─📄README.md
-│　　　├─📄LICENSE.txt
+│　　　├─⚖️LICENSE.txt
 │　　　├─📦document_composer.zip
 │　　　└─🤖document_composer.exe
 ├─📄document_composer.spec
@@ -247,3 +253,5 @@ pyinstaller --clean document_composer.spec
 実行ファイル`document_composer.exe`を起動すると、DocumentComposerのGUIが表示されます。実行ファイルでの起動は、CLIに対応していません。
 
 今のところ、実行ファイルの作成/配布は、Windowsにおいてのみ対応しています。
+
+使い方を記載したドキュメントは、`README.md`と`manual.html`です。`README.md`は開発者向けの内容なので、一般ユーザには`manual.html`を読むように教示することを推奨しています。
