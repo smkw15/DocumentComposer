@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>Document Composer GUI Manual</title>
+  <meta name="description" content="Document ComposerのGUIのマニュアルです。実行ファイルを配布されたユーザを読者に想定しています。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="manual.css" />
+  <link rel="icon" href="icon64.ico" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+</head>
+
+<body>
+  <header>
+    <div>
+      <img class="left" src="./icon64.png" />
+      <h1>Document Composer GUI マニュアル</h1>
+      <img class="right" src="./icon64.png" />
+    </div>
+    <p>
+      <b>Document Composer</b>は、複数の文書ファイルを1つの文書ファイルにまとめるアプリケーションです。このマニュアルでは、Document ComposerをGUIで操作する方法を説明したいと思います。
+    </p>
+  </header>
+
+  <main>
+    <h2 id="open">起動方法</a></h2>
+    <p>ユーザは、配布された実行ファイル(*.exe)を実行するだけでDocument Composerを起動することができます。実行ファイルは、大抵の場合、<b>document_composer.exe</b>という名前になっているでしょう。思い切ってダブルクリックしてみてください！</p>
+    <div class="notice">
+      <p><span class="material-icons">notification_important</span><b>NOTICE: 実行ファイルと同じフォルダに、次のファイルが存在してることを確認してください！</b></p>
+      <div class="block">
+        📁あなたのフォルダ<br />
+        ├─📁resrources<br />
+        │　├─🖼️icon64.ico<br />
+        │　└─🖼️icon64.png<br />
+        ├─📄logging.yml<br />
+        ├─📄config.yml<br />
+        └─🤖document_composer.exe
+      </div>
+    </div>
+    <p>起動すると、次のような画面が出ているはずです。
+    </p>
+    <img class="gui" src="./gui.png" alt="Document ComposerのGUI">
+
+    <h2 id="usage">操作方法</h2>
+    <p>画面には次の入力項目が存在しています。</p>
+    <ul>
+      <li>入力元ディレクトリ</li>
+      <li>入力ファイル形式</li>
+      <li>出力先ディレクトリ</li>
+      <li>出力ファイル形式</li>
+      <li>構成ファイル</li>
+      <li>冗長出力</li>
+    </ul>
+    <p>これらについて理解するには、Document Composerの動作機序を理解している必要があります。</p>
+
+    <div class="info">
+      <p><span class="material-icons">info</span><b>INFO: Document Composerの動作機序</b></p>
+      <ol>
+        <li>Document Composerは、<b>入力元ディレクトリ</b>に存在する文書ファイルを検索します。検索条件は、<b>入力ファイル形式</b>です。つまり、ファイルの拡張子が一致するファイルが検索対象になります。</li>
+        <li>検索したファイルをフィルタリングします。フィルタリングは<b>構成ファイル</b>内の<b>無視リスト</b>に記載されたファイルを検索結果から除くために行います(これはユーザが構成ファイルを編集することで、自由に検索対象外とするファイルを指定できることを意味しています！)。</li>
+        <li>検索したファイルを名前順にソートします。ソートは階層ごとに行われます。</li>
+        <li>ソートしたファイルを順番に読み込みます。</li>
+        <li>読み込んだファイルの内容(ファイルコンテンツ)を1つに結合します。その際、ファイルコンテンツの間には、それらの境界を示す<b>ファイルセパレータ</b>が挿入されます。ファイルセパレータもまた構成ファイルに定義されています。</li>
+        <li>結合したファイルコンテンツを<b>出力先ディレクトリ</b>に文書ファイルとして出力します。この時、出力される文書ファイルのファイル形式が、<b>出力ファイル形式</b>です。
+      </ol>
+    </div>
+    
+    <p>コンポーズ仕様を理解することができたなら、もうすでにそれぞれの入力項目に何を入れたらいいか分かったかもしれませんね。</p>
+
+    <ul>
+      <li><b>入力元ディレクトリ</b>には、コンポーズしたい文書ファイルを格納したディレクトリを入力します。ディレクトリは、相対パスでも絶対パスでも入力することができます。手入力するよりも「参照」ボタンを押してみてください。フォルダを選ぶダイアログが開くので、簡単に入力ができるかと思います！</li>
+      <li><b>入力ファイル形式</b>では、結合したい文書ファイルの拡張子を選択します。たとえば、テキストファイル(*.txt)を検索対象としたい場合は、「txt」を選択します。</li>
+      <li><b>出力先ディレクトリ</b>の入力の仕方は、入力元ディレクトリと一緒です。コンポーズ結果の文書ファイルを出力したいディレクトリを入力します。出力ファイルの名前には、既定の名前が使われます。</li>
+      <li><b>出力ファイル形式</b>の入力の仕方は、入力ファイル形式と一緒です。たとえば、検索したテキストファイルをWordファイル(*.docx)として出力したい場合は、「docx」を選択します。</li>
+      <li><b>構成ファイル</b>は、コンポーズの仕様を決定する設定値を定義したファイルです。ここでは、相対パスでも絶対パスでも構成ファイルを指定することができます。やはり手入力で入力することもできますが、「参照」ボタンでの入力をオススメします！ファイルを選ぶダイアログで、簡単に入力が出来るかと思います！</li>
+    </ul>
+
+    <div class="help">
+      <p><span class="material-icons">help</span><b>QUESTION: 冗長出力とは？</b></p>
+      <p>普通のコンポーズでは、複数の入力ファイルからたった1つの出力ファイルを作成します。これは入力元ディレクトリ内に複数のフォルダが置かれてたり、フォルダが何階層もあって深くなったりしていても同様です。DocumentComposerは、すべてのフォルダを再帰的に検索し、見つかった文書ファイルから1つの文書ファイルを出力します。</p>
+      <p>しかしながら、<b>冗長出力</b>をONにした場合は、この限りではありません。冗長出力では、コンポーズを1つのフォルダ階層ごとに行います。すなわち、出力先ディレクトリには、入力元ディレクリと同様なフォルダ構造が作成され、そのフォルダを単位とした文書ファイルが出力されることになります。なお、冗長出力を行った場合でも、すべての文書ファイルを含むファイルは作成されます。</p>
+    </div>
+
+    <h2 id="execute">実行</h2>
+    <p>すべての入力が済んだら、<b>実行</b>ボタンを押してみてください。コンポーズが実行されます。実行ボタンの横には、Document Composerの動作を表す<b>ログ</b>が表示されます。</p>
+    <p>コンポーズが完了すると、出力先ディレクリに出力ファイルが作成されています！出力ファイルは、大抵の場合、<b>__all_in__one__</b>というファイル名になっています。</p>
+
+    <div class="danger">
+      <p><span class="material-icons">dangerous</span><b>DANGER: コンポーズ時に既存のファイルは削除されます！</b></p>
+      <p>Document Composerは、コンポーズを開始するタイミングで、出力先ディレクトリをディレクトリごと削除します。重要なファイルを出力先ディレクトリに配置しないでください。</p>
+    </div>
+  </main>
+  
+  <footer>
+    <img src="./icon64.png" />
+    <p>© 2025 smkw15</p>
+    <p><a href="https://github.com/smkw15/DocumentComposer" target="_blank">github.com/smkw15/DocumentComposer</a></p>
+  </footer>
+</body>
+
+</html>

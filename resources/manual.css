@@ -1,0 +1,115 @@
+/* Google Font Icon */
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+.material-icons {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-bottom: 3px;
+}
+
+/* 全体スタイル */
+body {
+  margin: 0;
+}
+
+/* ヘッダースタイル */
+header {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+header div {
+  display: flex;
+  flex-direction: row;
+}
+
+header img {
+  object-fit: scale-down;
+}
+
+header img.left {
+  margin-right: 5px;
+}
+
+header img.right {
+  margin-left: 5px;
+}
+
+/* ボディスタイル */
+main {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+h2 {
+  margin-top: 50px
+}
+
+.gui {
+  width: 640px;
+  object-fit: contain;
+}
+
+.notice {
+  margin: 10px 0px;
+  padding: 10px 15px;
+  background-color: #FFFEAF;
+  border-radius: 10px;
+}
+
+.info {
+  margin: 10px 0px;
+  padding: 10px 15px;
+  background-color: #CEFBC2;
+  border-radius: 10px;
+}
+
+.help {
+  margin: 10px 0px;
+  padding: 10px 15px;
+  background-color: #c2f4fb;
+  border-radius: 10px;
+}
+
+.danger {
+  margin: 10px 0px;
+  padding: 10px 15px;
+  background-color: #fbc2c2;
+  border-radius: 10px;
+}
+
+.block {
+  margin: 10px 0px;
+  padding: 10px 15px;
+  background-color: #eeeeee;
+  border-radius: 10px;
+}
+
+/* フッタースタイル */
+footer {
+  width: 100%;
+  height: 250px;
+  margin-top: 120px;
+  padding-top: 20px;
+  color: #ffffff;
+  background-color: #000000;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+footer a {
+  color: #ffffff;
+}
+
+footer a:hover {
+  color: #cccccc;
+}
+
+footer img {
+  width: 64px;
+  margin: 0 auto;
+  object-fit: scale-down;
+}
