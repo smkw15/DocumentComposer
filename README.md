@@ -99,9 +99,10 @@ python3 main.py
   [--src <src_dir_path>]
   [--dest <dest_dir_path>]
   [--config <config_file_path>]
-  [-x <src_file_kind>]
-  [-y <dest_file_kind>]
+  [-x <src_file_extension>]
+  [-y <dest_file_extension>]
   [--verbose]
+  [--ui <user_interface>]
 ```
 
 ### コマンドライン引数
@@ -116,7 +117,7 @@ python3 main.py
 | `-x` | `txt` | 入力ファイルの形式を示す文字列。`txt`か`docx`。 |
 | `-y` | `txt` | 出力ファイルの形式を示す文字列。`txt`か`docx`。 |
 | `--verbose`または`-v` | `False` | 冗長出力を行うか。 |
-| `--gui`または`-g` | `False` | GUIを利用するか。 |
+| `--ui`または`-gu` | `cui`または`gui` | UIに何を利用するか。 |
 
 #### 構成ファイルオプション
 
@@ -193,13 +194,21 @@ python3 main.py
 └─📄__all_in_one__  👈A1 + A2 + B1 + B2
 ```
 
-#### GUIオプション
+#### UIオプション
 
-`--gui`(ショートハンド: `-g`)は、GUIオプションです。GUIオプションを渡すと、GUIを利用してDocumentComposerを実行することができます。なお、GUIオプションを利用した場合、その他のコマンドライン引数は無視されます。
+`--ui`(ショートハンド: `-u`)は、UIオプションです。UIオプションには、`cui`または`gui`の文字列を渡します。
 
-GUIでは、コマンドラインで実行する場合と同様な値を設定することができ、「実行」ボタンを押下することで、DocumentComposerの処理を呼び出すことができます(ログも表示されます)。この時、GUIで入力した値は、ユーザ入力ファイルに保存され、次にユーザがGUIを利用した際に初期値として復元されます。
+`cui`を渡した場合は、DocumentComposerをCUI(Character User Interface)で実行します。すなわち、Pythonスクリプトとして呼び出された場合、そのままDocumentComposerの処理が実行されます。
+
+`gui`を渡した場合は、DocumentComposerのGUIアプリケーションが起動します。ユーザはGUIアプリケーションが提供するGUI(Graphical User Interface)を通してDocumentComposerを実行することができます。なお、`gui`を指定してGUIアプリケーションを起動した場合、その他のオプションは無視されます。
+
+`--ui`オプションの初期値は、DocumentComposerをどのように起動したかで異なります。Pythonのスクリプトをコマンドラインから実行した場合は、`cui`が初期値となります。配布された実行ファイルから実行した場合は、`gui`が初期値となります。これらは、開発者に適したユーザインターフェースがCUIであり、配布物の提供を受けたエンドユーザに適したユーザインターフェースがGUIであることを想定した仕様です。
+
+GUIでは、コマンドラインから実行する場合のオプションと同様なパラメータを入力することができ、「実行」ボタンを押下することで、DocumentComposerの処理を呼び出すことができます(画面にはログも表示されます)。この時、GUIで入力した値は、ユーザ入力ファイルに保存され、次にユーザがGUIを利用した際に初期値として復元されます。
 
 ![image](./resources/gui.png)
+
+GUIアプリケーションの操作方法は、[GUIマニュアル](./resources/manual.html)を参照してください。
 
 ### ロギング
 
