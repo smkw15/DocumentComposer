@@ -14,6 +14,7 @@ from libs.constants import (
     SRC_FILE_EXT,
     DEST_FILE_EXT,
     Extension,
+    UI,
     LOGGING_CONFIG_FILE_PATH,
     LOGGING_DIR
 )
@@ -48,7 +49,7 @@ class ArgParams:
         src_file_ext (Extension): 入力ファイルのファイル形式。
         dest_file_ext (Extension): 出力ファイルのファイル形式。
         verbose (bool): 冗長出力を行うか。
-        gui (bool): GUIを使用するか。
+        ui (UI): UIに何を使用するか。
     """
     src_dir_path: str
     dest_dir_path: str
@@ -56,7 +57,7 @@ class ArgParams:
     src_file_ext: Extension
     dest_file_ext: Extension
     verbose: bool
-    gui: bool
+    ui: UI
 
 
 def parse_args() -> ArgParams:
@@ -78,7 +79,11 @@ def parse_args() -> ArgParams:
     parser.add_argument("-x", help="入力ファイルのファイル形式。", default=SRC_FILE_EXT, type=str)
     parser.add_argument("-y", help="出力ファイルのファイル形式。", default=DEST_FILE_EXT, type=str)
     parser.add_argument("--verbose", "-v", help="冗長出力を行うか。", action="store_true")
-    parser.add_argument("--gui", "-g", help="GUIを使用するか。", action="store_true")
+    # 実行ファイルから呼び出された時はデフォルトUIをGUIにする
+    if getattr(sys, "frozen", False):
+        parser.add_argument("--ui", "-u", help="UIに何を使用するか。", default="gui", type=str)
+    else:
+        parser.add_argument("--ui", "-u", help="UIに何を使用するか。", default="cui", type=str)
     args = parser.parse_args()
     return ArgParams(
         src_dir_path=args.src,
@@ -87,21 +92,17 @@ def parse_args() -> ArgParams:
         src_file_ext=args.x,
         dest_file_ext=args.y,
         verbose=args.verbose,
-        gui=args.gui)
+        ui=args.ui)
 
 
 def main():
     """メイン処理"""
     # ロギング初期化
     initialize_logging()
-    # exeからの機動の場合は強制的にGUIで起動
-    if getattr(sys, "frozen", False):
-        exec_composer_with_gui()
-        return
     # 引数解析
     args = parse_args()
-    # GUIかコンポーザー実行
-    if args.gui:
+    # GUIかコンポーザーを実行
+    if args.ui == "gui":
         exec_composer_with_gui()
     else:
         exec_composer(

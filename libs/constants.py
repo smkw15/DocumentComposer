@@ -8,6 +8,9 @@ NewlineChar = Literal["\n", "\r\n", "\r"]
 # 対応ファイル形式(拡張子)
 Extension = Literal["txt", "docx"]
 
+# ユーザインターフェース
+UI = Literal["gui", "cui"]
+
 # コマンドライン引数初期値
 SRC_ROOT_DIR_PATH: str = "./docs/src"
 DEST_ROOT_DIR_PATH: str = "./docs/dest"
@@ -15,7 +18,6 @@ CONFIG_FILE_PATH: str = "./config.yml"
 SRC_FILE_EXT: Extension = "txt"
 DEST_FILE_EXT: Extension = "txt"
 VERBOSE = False
-GUI = False
 
 # 構成情報初期値
 IGNORANTS: list[str] = []
