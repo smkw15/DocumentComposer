@@ -21,7 +21,7 @@ class Docx(Composable):
     config: Config
 
     @classmethod
-    def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Composable':
+    def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Docx':
         """新しい空のインスタンスを生成する。
 
         Args:
@@ -29,7 +29,7 @@ class Docx(Composable):
             config (Config): 構成情報。
 
         Returns:
-            Composable: インスタンス。
+            Docx: インスタンス。
         """
         docx = Docx(file_path, [], config)
         return docx

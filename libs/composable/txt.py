@@ -19,7 +19,7 @@ class Txt(Composable):
     config: Config
 
     @classmethod
-    def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Composable':
+    def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Txt':
         """新しい空のインスタンスを生成する。
 
         Args:
@@ -27,7 +27,7 @@ class Txt(Composable):
             config (Config): 構成情報。
 
         Returns:
-            Composable: インスタンス。
+            Txt: インスタンス。
         """
         txt = Txt(file_path, [], config)
         return txt
