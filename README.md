@@ -238,15 +238,12 @@ pyinstaller --clean document_composer.spec
 │　└─📁document_composer
 │　　　├─📁_internal
 │　　　│　└─📄各種バイナリ(dll, pydなど)
-│　　　├─📁manuals
+│　　　├─📁resources
 │　　　│　├─🖼️gui.png
-│　　　│　├─🖼️icon64.png
+│　　　│　├─🖼️icon64.ico
 │　　　│　├─🖼️icon64.png
 │　　　│　├─📄manual.html
 │　　　│　└─📄manual.css
-│　　　├─📁resources
-│　　　│　├─🖼️icon64.ico
-│　　　│　└─🖼️icon64.png
 │　　　├─📄config.yml
 │　　　├─📄logging.yml
 │　　　├─📄README.md
