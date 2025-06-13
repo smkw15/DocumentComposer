@@ -11,11 +11,9 @@ a = Analysis(
         ('LICENSE.txt', '.'),
         ('resources/icon64.ico', './resources'),
         ('resources/icon64.png', './resources'),
-        ('resources/icon64.ico', './manuals'),
-        ('resources/icon64.png', './manuals'),
-        ('resources/manual.html', './manuals'),
-        ('resources/manual.css', './manuals'),
-        ('resources/gui.png', './manuals'),
+        ('resources/manual.html', './resources'),
+        ('resources/manual.css', './resources'),
+        ('resources/gui.png', './resources'),
     ],
     hiddenimports=[],
     hookspath=[],
@@ -64,8 +62,6 @@ shutil.move('./dist/document_composer/_internal/logging.yml', './dist/document_c
 shutil.move('./dist/document_composer/_internal/README.md', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/LICENSE.txt', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/resources', './dist/document_composer')
-# マニュアル関係
-shutil.move('./dist/document_composer/_internal/manuals', './dist/document_composer/manuals')
 
 # 簡単に配布できるようにzip化する
 shutil.make_archive('document_composer', format='zip', root_dir='./dist/document_composer')
