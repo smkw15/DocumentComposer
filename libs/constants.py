@@ -13,7 +13,7 @@ SRC_ROOT_DIR_PATH: str = "./docs/src"
 DEST_ROOT_DIR_PATH: str = "./docs/dest"
 CONFIG_FILE_PATH: str = "./config.yml"
 SRC_FILE_EXT: Extension = "txt"
-DEST_FILE_EXT: Extension = "docx"
+DEST_FILE_EXT: Extension = "txt"
 VERBOSE = False
 GUI = False
 
