@@ -53,16 +53,13 @@ coll = COLLECT(
     name='document_composer',
 )
 
-# NOTE: 構成ファイルやリソースファイルなどがバイナリの階層に作られるので無理やり移動させる
+# NOTE: 構成ファイルやリソースファイルがバイナリの階層に作られるので無理やり移動させる
 import shutil
-
-# アプリ本体
 shutil.move('./dist/document_composer/_internal/config.yml', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/logging.yml', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/README.md', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/LICENSE.txt', './dist/document_composer')
 shutil.move('./dist/document_composer/_internal/resources', './dist/document_composer')
-
 # 簡単に配布できるようにzip化する
 shutil.make_archive('document_composer', format='zip', root_dir='./dist/document_composer')
 shutil.move('./document_composer.zip', './dist/document_composer')  # distファイルに移動
