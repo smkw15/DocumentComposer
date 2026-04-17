@@ -17,8 +17,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["flake8-docstrings==1.7.0", "pipdeptree==2.35.1", "pip-licenses>=5.5.5"]
-release = ["pyinstaller==6.14.1"]
+dev = ["flake8-docstrings==1.7.0"]
+release = ["pyinstaller==6.14.1", "pip-licenses>=5.5.5", "pipdeptree==2.35.1"]
 
 [project.scripts]
 document_composer = "document_composer.main:main"

@@ -284,3 +284,29 @@ uv run pyinstaller --clean document_composer.spec
 今のところ、実行ファイルの作成/配布は、Windowsにおいてのみ対応しています。
 
 使い方を記載したドキュメントは、`README.md`と`manual.html`です。`README.md`は開発者向けの内容なので、一般ユーザには`manual.html`を読むように教示することを推奨しています。
+
+## ライセンス情報ファイル出力方法
+
+ライセンス情報ファイルを作成するには、以下のコマンドで仮想環境を整備してから`pip-licenses`を利用します。
+
+```sh
+uv sync --all-extras
+uv run pip-licenses --format=plain-vertical --with-license-file --output-file LICENSE.txt --ignore-packages document-composer --no-license-path
+```
+
+| 引数 | 値 | 説明 |
+| -- | -- | -- |
+| `--format=*` | `plain-vertical` | フォーマットを指定します。`plain-vertical`は1パッケージごとにブロックで出力します。`json`にすると、JSON文字列で出力できます。 |
+| `--with-license-file` | `True` | ライセンス本文を追加で出力します。 |
+| `--output-file` | `LICENSE.txt` | 出力先のファイルを指定します。 |
+| `--ignore-packages` | `document-composer` | 出力に含めないパッケージを指定します。`pip-licenses`は仕様で自身のライセンス情報を含めてしまうので、ここでは`document-composer`を除きます。 |
+| `--no-license-path` | `True` | ライセンス情報が記載されたファイルまでのパスを出力しないようにします。ローカル環境のディレクトリがGitHubに公開されるリスクを考慮し、ここでは出力しないようにしています。 |
+
+**注意: `pip-licenses`は情報の取得に失敗すると、`UNKNOWN`という文字列を出力します。出力後のLICENSE.txtに`UNKNOWN`が含まれている場合は、手動で穴埋めしてください。特に以下のパッケージは`UNKNOWN`になることが分かっています。**
+
+- `pydocstyle` (MIT)
+  - [PyPI](https://pypi.org/project/pydocstyle/)
+  - [GitHub](https://github.com/PyCQA/pydocstyle)
+- `pyz` (GNU General Public)
+  - [PyPI](https://pypi.org/project/pyz/)
+  - [GitHub](https://github.com/BTOdell/pyz)
