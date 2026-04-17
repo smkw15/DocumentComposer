@@ -28,7 +28,7 @@ uv sync --extra dev
 uv sync --extra release
 ```
 
-## ■ディレクトリ構造
+## ディレクトリ構造
 
 ```txt
 📁./
@@ -42,16 +42,19 @@ uv sync --extra release
 │　└─📁src  👈デフォルトの入力元ディレクトリ
 ├─📁src  👈DocumentComposerのソースコード
 │　└─📁document_composer  👈document_composerパッケージ
+│　　 ├─📁resources  👈画像などのリースファイル
 │　　 ├─📄config.yml  👈構成ファイル
 │　　 ├─📄logging.yml  👈ロギング構成ファイル
 │　　 └─🐍main.py  👈エントリーポイント
-├─📁resources  👈画像などのリースファイル
 ├─📄.flake8  👈flake8設定ファイル
 ├─📄.gitignore  👈Gitのignore設定ファイル
-├─📄.user.yml  👈ユーザ入力ファイル(GUI用)
+├─📄.python-version  👈Pythonバージョン固定ファイル
+├─📄.user.yml  👈ユーザ入力ファイル(GUI用、実行時自動作成)
 ├─📄document_composer.spec  👈配布物作成用仕様ファイル
 ├─⚖️LICENSE.txt  👈ライセンス情報ファイル
-└─📄requirements.txt  👈依存ライブラリ設定ファイル
+├─📄pyproject.toml  👈プロジェクト管理ファイル
+├─📄README.md  👈本テキスト
+└─📄uv.lock  👈UV管理の依存パッケージロックファイル
 ```
 
 ## 動作仕様
@@ -142,7 +145,8 @@ uv run document_composer
 
 冗長出力とは、入力ディレクトリに存在する全階層で、その階層を単位としたコンポーズを実行する出力形式を指します。つまり、出力先ディレクトリに入力元ディレクトリと同様な階層構造が作成され、そのディレクトリごとに、個別の出力ファイルが保存されます。その際、出力ファイルのファイル名には、元になった入力元フォルダのフォルダ名が用いられます。なお、冗長出力を行う場合でも、既定の出力ファイル(全階層のすべての入力ファイルを含む出力ファイル)が保存されます。
 
-■通常の出力:
+##### 通常の出力
+
 ```txt
 📁docs/src
 ├─📁A
@@ -158,7 +162,8 @@ uv run document_composer
 └─📄__all_in_one__  👈A1 + A2 + B1 + B2
 ```
 
-■冗長出力:
+##### 冗長出力
+
 ```txt
 📁docs/src
 ├─📁A
@@ -190,9 +195,9 @@ uv run document_composer
 
 GUIでは、コマンドライン引数と同様な項目を指定することができ、「実行」ボタンを押下することで、コンポーズを実行することができます(画面にはログも表示されます)。この時、GUIで入力した内容は、`ユーザ入力ファイル`に保存され、次にユーザがGUIを利用した際の初期値となります。
 
-![image](./resources/gui.png)
+![image](./src/document_composer/resources/gui.png)
 
-GUIアプリケーションの操作方法は、[GUIマニュアル](./resources/manual.html)を参照してください。
+GUIアプリケーションの操作方法は、[GUIマニュアル](./src/document_composer/resources/manual.html)を参照してください。
 
 ### ロギング
 
