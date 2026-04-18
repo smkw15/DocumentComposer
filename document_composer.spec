@@ -46,9 +46,9 @@ coll = COLLECT(
     name='document_composer_exe',
 )
 
-# 簡単に配布できるようにライセンス情報ファイルやREADMEと合わせてzip化する
-import shutil 
+# NOTE: 簡単に配布できるようにライセンス情報ファイルやREADMEと合わせてzip化する
+import shutil
+import pathlib
 shutil.copy("./LICENSE.txt", "./dist/document_composer_exe/LICENSE.txt")
 shutil.copy("./README.md", "./dist/document_composer_exe/README.md")
-shutil.make_archive('document_composer_exe', format='zip', root_dir='./dist/document_composer_exe')
-shutil.move('./document_composer_exe.zip', './dist')  # distディレクトリ配下に移動
+shutil.make_archive('./dist/document_composer_exe', format='zip', root_dir='./dist/document_composer_exe')
