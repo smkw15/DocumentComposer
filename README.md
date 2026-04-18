@@ -5,17 +5,15 @@ DocumentComposerは、複数の文書ファイルを結合し、1つの文書フ
 ## 開発環境
 
 - Windows 11
-- Python 3.10.6
+- Python 3.14.4
 - uv
-- PEP8
-- VSCode
 
 ## 環境構築方法
 
 ```sh
 # Pythonインストール・バージョン固定
-uv python install 3.10.6
-uv python pin 3.10.6
+uv python install 3.14.4
+uv python pin 3.14.4
 
 # 仮想環境構築
 uv venv .venv
