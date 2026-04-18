@@ -92,12 +92,13 @@ class RootScreenModel:
         else:
             d = {}
         return cls(
-            src_dir_path=d["src_dir_path"] if "src_dir_path" in d else SRC_ROOT_DIR_PATH,
-            src_file_ext=d["src_file_ext"] if "src_file_ext" in d else SRC_FILE_EXT,
-            dest_dir_path=d["dest_dir_path"] if "dest_dir_path" in d else DEST_ROOT_DIR_PATH,
-            dest_file_ext=d["dest_file_ext"] if "dest_file_ext" in d else DEST_FILE_EXT,
-            config_file_path=d["config_file_path"] if "config_file_path" in d else CONFIG_FILE_PATH,
-            verbose=d["verbose"] if "verbose" in d else VERBOSE)
+            src_dir_path=d.get("src_dir_path", SRC_ROOT_DIR_PATH),
+            src_file_ext=d.get("src_file_ext", SRC_FILE_EXT),
+            dest_dir_path=d.get("dest_dir_path", DEST_ROOT_DIR_PATH),
+            dest_file_ext=d.get("dest_file_ext", DEST_FILE_EXT),
+            config_file_path=d.get("config_file_path", CONFIG_FILE_PATH),
+            verbose=d.get("verbose", VERBOSE)
+        )
 
     def dump_yml(self, model_file_path: str = SCREEN_FILE_PATH):
         """YAMLファイルにインスタンスをダンプする。
