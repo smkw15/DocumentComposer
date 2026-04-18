@@ -73,7 +73,7 @@ class Txt(Composable):
 
     def read_file(self):
         """ファイルを読み込む。"""
-        with open(str(self.file_path), mode="r", encoding=self.config.encoding, newline=self.config.newline_char_src) as f:
+        with open(str(self.file_path), mode="r", encoding=self.config.encoding) as f:
             content = f.read()
             content = integrate_newline_code(content)  # 改行コード統一
             content = strip_empty_line(content)  # 先頭と末尾の空行をトリミング

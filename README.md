@@ -116,20 +116,23 @@ uv run document_composer
 | -- | -- | -- |
 | `ignorants` | `[]` | イグノアリスト。入力対象外にするファイル・ディレクトリまでのパス。相対パスでも絶対パスでもよい。 |
 | `dest_root_file_nickname` | `__all_in_one__` | 最上層の出力ファイル(出力ルートファイル)のファイル名。拡張子を記載しない。 |
-| `file_separator` | `['', "＊", '']` | ファイルセパレータ。1つの配列要素が1行の文字列に相当する。|
-| `paragraph_style_name` | `Body Text` | 段落のスタイル。python-docxの仕様に基づく。|
-| `paragraph_pt_before` | `0.0` | 段落間スペースのサイズ。段落前。|
-| `paragraph_pt_after` | `0.0` | 段落間スペースのサイズ。段落後。|
-| `page_width_mm` | `210.0` | ページサイズの横幅。mm単位。|
-| `page_height_mm` | `297.0` | ページサイズの縦幅。mm単位。|
-| `left_margin_mm` | `19.0` | ページの余白の左。mm単位。|
-| `top_margin_mm` | `19.0` | ページの余白の右。mm単位。|
-| `right_margin_mm` | `19.0` | ページの余白の上。mm単位。|
-| `bottom_margin_mm` | `19.0` | ページの余白の下。mm単位。|
-| `header_distance_mm` | `19.0` | ヘッダーの幅。mm単位。|
-| `footer_distance_mm` | `19.0` | フッターの幅。mm単位。|
-| `encoding` | `utf-8` | 文字エンコーディング方式。|
-| `newline_code` | `LF` | 改行コード。`LF`、`CRLF`、`LF`のどれか。|
+| `file_separator` | `['', "＊", '']` | ファイルセパレータ。1つの配列要素が1行の文字列に相当する。 |
+| `paragraph_style_name` | `Body Text` | 段落のスタイル。python-docxの仕様に基づく。 |
+| `paragraph_pt_before` | `0.0` | 段落間スペースのサイズ。段落前。 |
+| `paragraph_pt_after` | `0.0` | 段落間スペースのサイズ。段落後。 |
+| `page_width_mm` | `210.0` | ページサイズの横幅。mm単位。 |
+| `page_height_mm` | `297.0` | ページサイズの縦幅。mm単位。 |
+| `left_margin_mm` | `19.0` | ページの余白の左。mm単位。 |
+| `top_margin_mm` | `19.0` | ページの余白の右。mm単位。 |
+| `right_margin_mm` | `19.0` | ページの余白の上。mm単位。 |
+| `bottom_margin_mm` | `19.0` | ページの余白の下。mm単位。 |
+| `header_distance_mm` | `19.0` | ヘッダーの幅。mm単位。 |
+| `footer_distance_mm` | `19.0` | フッターの幅。mm単位。 |
+| `encoding` | `utf-8` | 文字エンコーディング方式。 |
+| `newline_code_src` | `LF` | 入力ファイル改行コード。`LF`、`CRLF`、`LF`のどれか。 |
+| `newline_code_dest` | `LF` | 出力ファイル改行コード。`LF`、`CRLF`、`LF`のどれか。 |
+
+**注意: 現在のDocumentComposerは`txt`ファイルと`docx`ファイルの読み込みにのみ対応していますが、これらの読み込み処理には改行コードを用いていないため、`newline_code_src`は使われていない設定値になります。将来的に対応ファイルが増えた際のニーズを見込んで実装が残されています。**
 
 改行コードは、一般に多く見られる仕様に準じて定義されています。
 
