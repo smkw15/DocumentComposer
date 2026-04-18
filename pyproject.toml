@@ -9,7 +9,7 @@ description = "DocumentComposer is a Python module that combines multiple docume
 readme = "README.md"
 license = { file = "LICENSE.txt" }
 requires-python = ">=3.14.4"
-dependencies = ["customtkinter==5.2.2", "PyYAML==6.0.2", "python-docx==1.1.2"]
+dependencies = ["customtkinter==5.2.2", "PyYAML==6.0.3", "python-docx==1.2.0"]
 
 [project.optional-dependencies]
 dev = ["flake8-docstrings==1.7.0"]

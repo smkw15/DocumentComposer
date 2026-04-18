@@ -1,5 +1,5 @@
 PyYAML
-6.0.2
+6.0.3
 MIT License
 Copyright (c) 2017-2021 Ingy döt Net
 Copyright (c) 2006-2016 Kirill Simonov
@@ -227,11 +227,11 @@ under the terms of *both* these licenses.
 
 
 pefile
-2023.2.7
+2024.8.26
 MIT
 The MIT License (MIT)
 
-Copyright (c) 2004-2023 Ero Carrera
+Copyright (c) 2004-2024 Ero Carrera
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1506,7 +1506,7 @@ Apache License 2.0
 
 
 python-docx
-1.1.2
+1.2.0
 MIT License
 The MIT License (MIT)
 Copyright (c) 2013 Steve Canny, https://github.com/scanny

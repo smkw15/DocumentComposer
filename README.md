@@ -11,6 +11,10 @@ DocumentComposerは、複数の文書ファイルを結合し、1つの文書フ
 ## 環境構築方法
 
 ```sh
+# uv下準備
+uv self update
+uv pip install --upgrade pip
+
 # Pythonインストール・バージョン固定
 uv python install 3.14.4
 uv python pin 3.14.4
