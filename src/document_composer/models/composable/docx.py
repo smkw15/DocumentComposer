@@ -71,7 +71,16 @@ class Docx(Composable):
         """ファイルを読み込む。"""
         doc = Document(str(self.file_path))
         lines = [p.text for p in doc.paragraphs]
-        self.append_lines(lines)
+        if lines:
+            # 先頭・末尾に存在する空行を削除する
+            start = 0
+            end = len(lines)
+            while start < end and lines[start].strip() == "":
+                start += 1
+            while end > start and lines[end - 1].strip() == "":
+                end -= 1
+            lines = lines[start:end]
+            self.append_lines(lines)
 
     def write_file(self):
         """ファイルを書き込み。"""
