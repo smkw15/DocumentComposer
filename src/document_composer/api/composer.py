@@ -61,22 +61,25 @@ class Composer:
         self,
         src_root_dir_path: pathlib.Path,
         dest_root_dir_path: pathlib.Path,
-        can_reset: bool,
+        can_remove: bool,
         src_type: Type[S],
         dest_type: Type[D]
-    ) -> list[Composable]:
+    ) -> list[tuple[list[Composable], Composable]]:
         """コンポーズの冗長実行を行う。
 
         Args:
             src_root_dir_path (pathlib.Path): 入力元ルートディレクトリ。入力元の最も上層のディレクトリ。
             dest_root_dir_path (pathlib.Path): 出力先ルートディレクトリ。出力先の最も上層のディレクトリ。
-            can_reset (bool): リセットフラグ。出力先ディレクトリの削除可否。
+            can_remove (bool): 削除フラグ。出力先ディレクトリの削除可否。
             src_type (Type[S]): 入力ファイルのファイル形式を示す型引数。
             dest_type (Type[D]): 出力ファイルのファイル形式を示す型引数。
+
+        Returns:
+            list[tuple[list[Composable], Composable]]: 入力ファイル群と出力ファイルの組み合わせのリスト。
         """
         ret = []
         # 出力先ディレクトリをセット
-        self._reset_dest_dir(dest_root_dir_path, can_reset)
+        self._reset_dest_dir(dest_root_dir_path, can_remove)
         # 入力元ディレクトリをすべて検索
         src_dir_pathes = self._find_pathes(src_root_dir_path, "**", self.config.ignorants)
         src_dir_pathes = [p for p in src_dir_pathes if p.is_dir()]
@@ -101,7 +104,7 @@ class Composer:
         self,
         src_dir_path: pathlib.Path,
         dest_file_path: pathlib.Path,
-        can_reset: bool,
+        can_remove: bool,
         src_type: Type[S],
         dest_type: Type[D]
     ) -> tuple[list[Composable], Composable]:
@@ -110,17 +113,21 @@ class Composer:
         Args:
             src_dir_path (pathlib.Path): 入力元ディレクリのパス。
             dest_file_path (pathlib.Path): 出力ファイルのパス。
-            can_reset (bool): リセットフラグ。出力先ディレクトリの削除可否。
+            can_remove (bool): 削除フラグ。出力先ディレクトリの削除可否。
             src_type (Type[S]): 入力ファイルのファイル形式を示す型引数。
             dest_type (Type[D]): 出力ファイルのファイル形式を示す型引数。
 
         Returns:
-            tuple[list[Composable], Composable]: 入力ファイルと出力ファイル。
+            tuple[list[Composable], Composable]: 入力ファイル群と出力ファイルの組み合わせ。
         """
-        # 出力先ディレクトリをリセット
-        self._reset_dest_dir(dest_file_path.parent, can_reset)
         # ファイル検索
         src_file_pathes = self._find_pathes(src_dir_path, "*." + src_type.get_extension(), self.config.ignorants)
+        # ファイルが0件の時は中断
+        if not src_file_pathes:
+            self._log(f"Empty SRC_DIR skipped: {src_dir_path}", logging.WARN)
+            return ([], None)
+        # 出力先ディレクトリをリセット
+        self._reset_dest_dir(dest_file_path.parent, can_remove)
         # 読み込み
         src_files = self._read_files(src_file_pathes, src_type)
         # 集積
@@ -128,7 +135,7 @@ class Composer:
         self._accumulate_lines(src_files, dest_file)
         # 書き込み
         dest_file.write_file()
-        self._log(f"Created: {str(dest_file_path)}")
+        self._log(f"Created: {dest_file_path}")
         return (src_files, dest_file)
 
     def _find_pathes(
@@ -152,7 +159,7 @@ class Composer:
             src_file = src_type.new_file(src_file_path, self.config)
             src_file.read_file()
             ret.append(src_file)
-            self._log(f"Loaded: {str(src_file_path)}")
+            self._log(f"Loaded: {src_file_path}")
         return ret
 
     def _accumulate_lines(
@@ -166,13 +173,13 @@ class Composer:
                 dest_files.append_lines(self.config.file_separator)
         return dest_files
 
-    def _reset_dest_dir(self, dest_dir_path: pathlib.Path, can_reset: bool):
-        if can_reset and dest_dir_path.exists():
+    def _reset_dest_dir(self, dest_dir_path: pathlib.Path, can_remove: bool):
+        if can_remove and dest_dir_path.exists():
             shutil.rmtree(str(dest_dir_path))
-            self._log(f"Removed: {str(dest_dir_path)}")
+            self._log(f"Removed: {dest_dir_path}", logging.WARN)
         if not dest_dir_path.exists():
             dest_dir_path.mkdir(parents=True)
-            self._log(f"Created: {str(dest_dir_path)}")
+            self._log(f"Created: {dest_dir_path}")
 
     def _log(self, s: str, level: int = logging.INFO, *args, **kwargs):
         if self.logger is None:
