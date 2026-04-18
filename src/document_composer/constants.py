@@ -36,7 +36,11 @@ BOTTOM_MARGIN_MM: float = 19.0
 HEADER_DISTANCE_MM: float = 19.0
 FOOTER_DISTANCE_MM: float = 19.0
 ENCODING: str = "utf-8"
-NEWLINE_CODE: str = "LF"
+NEWLINE_CODE_SRC: NewlineCode = "LF"
+NEWLINE_CODE_DEST: NewlineCode = "LF"
+
+# システムファイルの改行コード
+NEWLINE_CODE_SYSTEM: NewlineCode = "LF"
 
 # GUIデータ保存先
 SCREEN_FILE_PATH: str = "./.user.yml"

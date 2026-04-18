@@ -18,7 +18,8 @@ from document_composer.constants import (
     HEADER_DISTANCE_MM,
     FOOTER_DISTANCE_MM,
     ENCODING,
-    NEWLINE_CODE,
+    NEWLINE_CODE_SRC,
+    NEWLINE_CODE_DEST,
     CONFIG_FILE_PATH,
     NewlineCode,
     NewlineChar
@@ -53,7 +54,8 @@ class Config:
         header_distance_mm (float): ヘッダーの幅。ミリ単位。
         footer_distance_mm (float): フッターの幅。ミリ単位。
         encoding (str): 文字エンコーディング方式。
-        newline_code (str): 改行コード。
+        newline_code_src (NewlineCode): 入力ファイル改行コード。
+        newline_code_dest (NewlineCode): 出力ファイル改行コード。
     """
     ignorants: list[pathlib.Path]
     dest_root_file_nickname: str
@@ -70,7 +72,8 @@ class Config:
     header_distance_mm: float
     footer_distance_mm: float
     encoding: str
-    newline_code: NewlineCode
+    newline_code_src: NewlineCode
+    newline_code_dest: NewlineCode
 
     @property
     def ignorants_as_str(self) -> pathlib.Path:
@@ -82,13 +85,22 @@ class Config:
         return [ig.resolve() for ig in self.ignorants]
 
     @property
-    def newline_char(self) -> NewlineChar:
-        """改行コードを改行文字として取得。
+    def newline_char_src(self) -> NewlineChar:
+        """入力ファイルの改行コードを改行文字として取得。
 
         Returns:
             NewlineChar: 改行文字。
         """
-        return get_newline_char(self.newline_code)
+        return get_newline_char(self.newline_code_src)
+
+    @property
+    def newline_char_dest(self) -> NewlineChar:
+        """出力ファイルの改行コードを改行文字として取得。
+
+        Returns:
+            NewlineChar: 改行文字。
+        """
+        return get_newline_char(self.newline_code_dest)
 
     @classmethod
     def from_yml(cls, config_file_path: str = CONFIG_FILE_PATH) -> 'Config':
@@ -132,7 +144,8 @@ class Config:
             header_distance_mm=d.get("header_distance_mm", HEADER_DISTANCE_MM),
             footer_distance_mm=d.get("footer_distance_mm", FOOTER_DISTANCE_MM),
             encoding=d.get("encoding", ENCODING),
-            newline_code=d.get("newline_code", NEWLINE_CODE),
+            newline_code_src=d.get("newline_code_src", NEWLINE_CODE_SRC),
+            newline_code_dest=d.get("newline_code_dest", NEWLINE_CODE_DEST),
         )
 
     def __repr__(self):
@@ -155,4 +168,5 @@ class Config:
             + f"header_distance_mm={self.header_distance_mm}, " \
             + f"footer_distance_mm={self.footer_distance_mm}, " \
             + f"encodingf={self.encoding}, " \
-            + f"newline_code={self.newline_code}"
+            + f"newline_code_src={self.newline_code_src}" \
+            + f"newline_code_dest={self.newline_code_dest}"

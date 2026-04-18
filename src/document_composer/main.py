@@ -7,6 +7,7 @@ import logging
 import logging.config
 import pathlib
 from document_composer.constants import (
+    ENCODING,
     SRC_ROOT_DIR_PATH,
     DEST_ROOT_DIR_PATH,
     CONFIG_FILE_PATH,
@@ -33,7 +34,7 @@ def initialize_logging():
     if not logging_dir_path.exists():
         logging_dir_path.mkdir()
     # ロギング構成ファイルから読みだしてロガー作成
-    with open(LOGGING_CONFIG_FILE_PATH) as f:
+    with open(LOGGING_CONFIG_FILE_PATH, encoding=ENCODING) as f:
         d = yaml.load(f, Loader=LoggingLoader)
     logging.config.dictConfig(d)
 

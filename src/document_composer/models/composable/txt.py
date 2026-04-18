@@ -4,6 +4,12 @@ import pathlib
 from document_composer.models.composable.base import Composable
 from document_composer.constants import Extension
 from document_composer.config import Config
+from document_composer.util import (
+    integrate_newline_code,
+    join_lines,
+    split_to_lines,
+    strip_empty_line
+)
 
 
 @dataclasses.dataclass
@@ -67,11 +73,15 @@ class Txt(Composable):
 
     def read_file(self):
         """ファイルを読み込む。"""
-        with open(str(self.file_path), mode="r", encoding=self.config.encoding, newline=self.config.newline_char) as f:
-            lines = f.read().strip(self.config.newline_char).split(self.config.newline_char)  # ファイルの先頭と末尾にある改行はトリム
+        with open(str(self.file_path), mode="r", encoding=self.config.encoding, newline=self.config.newline_char_src) as f:
+            content = f.read()
+            content = integrate_newline_code(content)  # 改行コード統一
+            content = strip_empty_line(content)  # 先頭と末尾の空行をトリミング
+            lines = split_to_lines(content)  # システム用の改行コードで分割
             self.append_lines(lines)
 
     def write_file(self):
         """ファイルを書き込み。"""
-        with open(str(self.file_path), mode="w", encoding=self.config.encoding, newline=self.config.newline_char) as f:
-            f.write(self.config.newline_char.join(self.get_lines()))
+        with open(str(self.file_path), mode="w", encoding=self.config.encoding, newline=self.config.newline_char_dest) as f:
+            content = join_lines(self.get_lines())  # システム用の改行コードで結合
+            f.write(content)
