@@ -116,24 +116,23 @@ class Config:
         Returns:
             Config: インスタンス。
         """
-        tmp_ignorants = d["ignorants"] if "ignorants" in d else IGNORANTS
         return cls(
-            ignorants=[pathlib.Path(ig) for ig in tmp_ignorants],  # イグノアリストは絶対パスに正規化して格納する
-            dest_root_file_nickname=d["dest_root_file_nickname"] if "dest_root_file_nickname" in d else DEST_ROOT_FILE_NICKNAME,
-            file_separator=d["file_separator"] if "file_separator" in d else FILE_SEPARATOR,
-            paragraph_style_name=d["paragraph_style_name"] if "paragraph_style_name" in d else PARAGRAPH_STYLE_NAME,
-            paragraph_pt_before=d["paragraph_pt_before"] if "paragraph_pt_before" in d else PARAGRAPH_PT_BEFORE,
-            paragraph_pt_after=d["paragraph_pt_after"] if "paragraph_pt_after" in d else PARAGRAPH_PT_AFTER,
-            page_width_mm=d["page_width_mm"] if "page_width_mm" in d else PAGE_WIDTH_MM,
-            page_height_mm=d["page_height_mm"] if "page_height_mm" in d else PAGE_HEIGHT_MM,
-            left_margin_mm=d["left_margin_mm"] if "left_margin_mm" in d else LEFT_MARGIN_MM,
-            top_margin_mm=d["top_margin_mm"] if "top_margin_mm" in d else TOP_MARGIN_MM,
-            right_margin_mm=d["right_margin_mm"] if "right_margin_mm" in d else RIGHT_MARGIN_MM,
-            bottom_margin_mm=d["bottom_margin_mm"] if "bottom_margin_mm" in d else BOTTOM_MARGIN_MM,
-            header_distance_mm=d["header_distance_mm"] if "header_distance_mm" in d else HEADER_DISTANCE_MM,
-            footer_distance_mm=d["footer_distance_mm"] if "footer_distance_mm" in d else FOOTER_DISTANCE_MM,
-            encoding=d["encoding"] if "encoding" in d else ENCODING,
-            newline_code=d["newline_code"] if "newline_code" in d else NEWLINE_CODE
+            ignorants=[pathlib.Path(ig) for ig in d.get("ignorants", IGNORANTS)],  # イグノアリストは絶対パスに正規化して格納する
+            dest_root_file_nickname=d.get("dest_root_file_nickname", DEST_ROOT_FILE_NICKNAME),
+            file_separator=d.get("file_separator", FILE_SEPARATOR),
+            paragraph_style_name=d.get("paragraph_style_name", PARAGRAPH_STYLE_NAME),
+            paragraph_pt_before=d.get("paragraph_pt_before", PARAGRAPH_PT_BEFORE),
+            paragraph_pt_after=d.get("paragraph_pt_after", PARAGRAPH_PT_AFTER),
+            page_width_mm=d.get("page_width_mm", PAGE_WIDTH_MM),
+            page_height_mm=d.get("page_height_mm", PAGE_HEIGHT_MM),
+            left_margin_mm=d.get("left_margin_mm", LEFT_MARGIN_MM),
+            top_margin_mm=d.get("top_margin_mm", TOP_MARGIN_MM),
+            right_margin_mm=d.get("right_margin_mm", RIGHT_MARGIN_MM),
+            bottom_margin_mm=d.get("bottom_margin_mm", BOTTOM_MARGIN_MM),
+            header_distance_mm=d.get("header_distance_mm", HEADER_DISTANCE_MM),
+            footer_distance_mm=d.get("footer_distance_mm", FOOTER_DISTANCE_MM),
+            encoding=d.get("encoding", ENCODING),
+            newline_code=d.get("newline_code", NEWLINE_CODE),
         )
 
     def __repr__(self):
