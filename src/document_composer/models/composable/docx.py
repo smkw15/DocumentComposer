@@ -69,7 +69,9 @@ class Docx(Composable):
 
     def read_file(self):
         """ファイルを読み込む。"""
-        pass
+        doc = Document(str(self.file_path))
+        lines = [p.text for p in doc.paragraphs]
+        self.append_lines(lines)
 
     def write_file(self):
         """ファイルを書き込み。"""
