@@ -6,6 +6,12 @@ from docx.shared import Pt, Mm
 from document_composer.models.composable.base import Composable
 from document_composer.constants import Extension
 from document_composer.config import Config
+from document_composer.util import (
+    integrate_newline_code,
+    join_lines,
+    split_to_lines,
+    strip_empty_line
+)
 
 
 @dataclasses.dataclass
@@ -72,14 +78,10 @@ class Docx(Composable):
         doc = Document(str(self.file_path))
         lines = [p.text for p in doc.paragraphs]
         if lines:
-            # 先頭・末尾に存在する空行を削除する
-            start = 0
-            end = len(lines)
-            while start < end and lines[start].strip() == "":
-                start += 1
-            while end > start and lines[end - 1].strip() == "":
-                end -= 1
-            lines = lines[start:end]
+            content = join_lines(lines)  # システム用の改行コードで一度結合
+            content = integrate_newline_code(content)  # 改行コード統一
+            content = strip_empty_line(content)  # 先頭と末尾の空行をトリミング
+            lines = split_to_lines(content)  # システム用の改行コードで行のリストに戻す
             self.append_lines(lines)
 
     def write_file(self):

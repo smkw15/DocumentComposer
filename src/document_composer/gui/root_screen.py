@@ -33,7 +33,7 @@ from document_composer.constants import (
     Extension,
     SCREEN_FILE_PATH,
     ENCODING,
-    NEWLINE_CODE,
+    NEWLINE_CODE_SYSTEM,
     SRC_ROOT_DIR_PATH,
     DEST_ROOT_DIR_PATH,
     CONFIG_FILE_PATH,
@@ -85,7 +85,7 @@ class RootScreenModel:
             RootScreenModel: インスタンス。
         """
         if pathlib.Path(model_file_path).exists():
-            with open(model_file_path, mode="r", encoding=ENCODING, newline=get_newline_char(NEWLINE_CODE)) as f:
+            with open(model_file_path, mode="r", encoding=ENCODING, newline=get_newline_char(NEWLINE_CODE_SYSTEM)) as f:
                 d = yaml.load(f, Loader=ScreenLoader)
                 if d is None:
                     d = {}
@@ -106,7 +106,7 @@ class RootScreenModel:
         Args:
             model_file_path (str): スクリーンモデルファイルまでのパス。
         """
-        with open(model_file_path, mode="w", encoding=ENCODING, newline=get_newline_char(NEWLINE_CODE)) as f:
+        with open(model_file_path, mode="w", encoding=ENCODING, newline=get_newline_char(NEWLINE_CODE_SYSTEM)) as f:
             yaml.dump(self.to_dict(), f, Dumper=ScreenDumper, sort_keys=False)
 
     def to_dict(self) -> dict:
