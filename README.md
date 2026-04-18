@@ -5,17 +5,19 @@ DocumentComposerは、複数の文書ファイルを結合し、1つの文書フ
 ## 開発環境
 
 - Windows 11
-- Python 3.10.6
+- Python 3.14.4
 - uv
-- PEP8
-- VSCode
 
 ## 環境構築方法
 
 ```sh
+# uv下準備
+uv self update
+uv pip install --upgrade pip
+
 # Pythonインストール・バージョン固定
-uv python install 3.10.6
-uv python pin 3.10.6
+uv python install 3.14.4
+uv python pin 3.14.4
 
 # 仮想環境構築
 uv venv .venv
@@ -308,13 +310,6 @@ uv run pip-licenses --format=plain-vertical --with-license-file --output-file LI
 | `--with-license-file` | `True` | ライセンス本文を追加で出力します。 |
 | `--output-file` | `LICENSE.txt` | 出力先のファイルを指定します。 |
 | `--ignore-packages` | `document-composer` | 出力に含めないパッケージを指定します。`pip-licenses`は仕様で自身のライセンス情報を含めてしまうので、ここでは`document-composer`を除きます。 |
-| `--no-license-path` | `True` | ライセンス情報が記載されたファイルまでのパスを出力しないようにします。ローカル環境のディレクトリがGitHubに公開されるリスクを考慮し、ここでは出力しないようにしています。 |
+| `--no-license-path` | `True` | ライセンス情報が記載されたファイルまでのパスを出力しないようにします。ローカル環境のディレクトリが公開されてしまうため、ここでは出力しない設定にしています。 |
 
-**注意: `pip-licenses`は情報の取得に失敗すると、`UNKNOWN`という文字列を出力します。出力後のLICENSE.txtに`UNKNOWN`が含まれている場合は、手動で穴埋めしてください。特に以下のパッケージは`UNKNOWN`になることが分かっています。**
-
-- `pydocstyle` (MIT)
-  - [PyPI](https://pypi.org/project/pydocstyle/)
-  - [GitHub](https://github.com/PyCQA/pydocstyle)
-- `pyz` (GNU General Public)
-  - [PyPI](https://pypi.org/project/pyz/)
-  - [GitHub](https://github.com/BTOdell/pyz)
+**注意: `pip-licenses`は情報の取得に失敗すると、`UNKNOWN`という文字列を出力します。出力後のLICENSE.txtに`UNKNOWN`が含まれている場合は、手動で穴埋めしてください。
