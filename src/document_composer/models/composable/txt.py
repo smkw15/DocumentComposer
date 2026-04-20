@@ -2,7 +2,7 @@
 import dataclasses
 import pathlib
 
-from document_composer.models.composable.base import Composable
+from document_composer.models.composable.protocol import Composable
 from document_composer.constants import Extension
 from document_composer.config import Config
 from document_composer.util import (

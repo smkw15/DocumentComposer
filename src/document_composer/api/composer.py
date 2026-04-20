@@ -6,7 +6,7 @@ import logging
 
 from typing import Any, Dict, Mapping, Type
 
-from document_composer.models.composable.base import Composable
+from document_composer.models.composable.protocol import Composable
 from document_composer.models.composable.docx import Docx
 from document_composer.models.composable.txt import Txt
 from document_composer.config import Config
