@@ -1,18 +1,20 @@
 """DocumentComposer向けエントリーモジュール。"""
 import customtkinter as ctk
-from typing import Any, Optional, Union
+
+from typing import Any, Optional, Tuple, Union
+
 from document_composer.gui.basic.dc_font import DCFont
 from document_composer.gui.basic.dc_widget import DCWidget
 
 
-class DCEntry(ctk.CTkEntry, DCWidget):
+class DCEntry(ctk.CTkEntry, DCWidget):  # type: ignore[misc]
     """独自エントリーラッパークラス。"""
 
     def __init__(
         self,
         master: Any,
-        font: Optional[Union[tuple, DCFont]] = None,
-        **kwargs
+        font: Optional[Union[Tuple[object], DCFont]] = None,
+        **kwargs: object
     ):
         """コンストラクタ。"""
         super().__init__(
@@ -20,7 +22,7 @@ class DCEntry(ctk.CTkEntry, DCWidget):
             font=DCFont() if font is None else font,
             **kwargs)
 
-    def set_value(self, value: str):
+    def set_value(self, value: str) -> None:
         """値のセット。
 
         Args:

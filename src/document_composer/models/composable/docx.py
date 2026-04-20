@@ -1,9 +1,11 @@
 """Docxデータモデルモジュール。"""
 import dataclasses
 import pathlib
+
 from docx import Document
 from docx.shared import Pt, Mm
-from document_composer.models.composable.base import Composable
+
+from document_composer.models.composable.protocol import Composable
 from document_composer.constants import Extension
 from document_composer.config import Config
 from document_composer.util import (
@@ -15,7 +17,7 @@ from document_composer.util import (
 
 
 @dataclasses.dataclass
-class Docx(Composable):
+class Docx:
     """docxファイルを表すデータモデル。
 
     Attributes:
@@ -27,7 +29,7 @@ class Docx(Composable):
     config: Config
 
     @classmethod
-    def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Docx':
+    def new_file(cls, file_path: pathlib.Path, config: Config) -> Composable:
         """新しい空のインスタンスを生成する。
 
         Args:
@@ -65,7 +67,7 @@ class Docx(Composable):
         """
         return self.lines
 
-    def append_lines(self, lines: list[str]):
+    def append_lines(self, lines: list[str]) -> None:
         """ファイルコンテンツを追加する。
 
         Args:
@@ -73,7 +75,7 @@ class Docx(Composable):
         """
         self.lines.extend(lines)
 
-    def read_file(self):
+    def read_file(self) -> None:
         """ファイルを読み込む。"""
         doc = Document(str(self.file_path))
         lines = [p.text for p in doc.paragraphs]
@@ -84,7 +86,7 @@ class Docx(Composable):
             lines = split_to_lines(content)  # システム用の改行コードで行のリストに戻す
             self.append_lines(lines)
 
-    def write_file(self):
+    def write_file(self) -> None:
         """ファイルを書き込み。"""
         # ドキュメント用意
         doc = Document()

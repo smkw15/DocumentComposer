@@ -1,19 +1,21 @@
 """DocumentComposer向けテキストボックスモジュール。"""
 import customtkinter as ctk
-from typing import Any, Optional, Union
+
+from typing import Any, Optional, Tuple, Union
+
 from document_composer.gui.basic.dc_font import DCFont
 from document_composer.gui.basic.dc_widget import DCWidget
 
 
-class DCTextbox(ctk.CTkTextbox, DCWidget):
+class DCTextbox(ctk.CTkTextbox, DCWidget):  # type: ignore[misc]
     """独自テキストボックスクラス。"""
 
     def __init__(
         self,
         master: Any,
-        font: Optional[Union[tuple, DCFont]] = None,
+        font: Optional[Union[Tuple[object], DCFont]] = None,
         readonly: bool = False,
-        **kwargs
+        **kwargs: object
     ):
         """コンストラクタ。"""
         super().__init__(
@@ -24,7 +26,7 @@ class DCTextbox(ctk.CTkTextbox, DCWidget):
         if self.readonly:
             self.configure(state="disabled")
 
-    def set_value(self, value: str):
+    def set_value(self, value: str) -> None:
         """値のセット。
 
         Args:
@@ -39,7 +41,7 @@ class DCTextbox(ctk.CTkTextbox, DCWidget):
             self.delete("1.0", ctk.END)
             self.insert(ctk.END, value)
 
-    def insert_value(self, value: str):
+    def insert_value(self, value: str) -> None:
         """値の挿入。
 
         Args:

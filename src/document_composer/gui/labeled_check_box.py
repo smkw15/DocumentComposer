@@ -1,6 +1,8 @@
 """ラベル付きチェックボックスモジュール。"""
 import tkinter as tk
+
 from typing import Any
+
 from document_composer.gui.basic.dc_frame import DCFrame
 from document_composer.gui.basic.dc_label import DCLabel
 from document_composer.gui.basic.dc_check_box import DCCheckBox
@@ -17,7 +19,7 @@ class LabeledCheckBox(DCFrame):
         value: bool = False,
         label_width: int = 0,
         label_height: int = 28,
-        font: DCFont = None
+        font: DCFont | None = None
     ):
         """コンストラクタ。
 
@@ -31,7 +33,7 @@ class LabeledCheckBox(DCFrame):
             value (bool): 初期値。
             label_width (int): ラベルの幅。
             label_height (int): ラベルの高さ。
-            font (DcFont): フォント。
+            font (DcFont | None): フォント。
         """
         # フレーム設定
         super().__init__(master)

@@ -1,6 +1,9 @@
 """ロギング表示テキストボックスモジュール。"""
 import logging
-from typing import Any
+
+from typing import Any, Optional, Tuple, Union
+
+from document_composer.gui.basic.dc_font import DCFont
 from document_composer.gui.basic.dc_textbox import DCTextbox
 
 
@@ -12,11 +15,11 @@ class GuiHandler(logging.Handler):
         super().__init__()
         self.textboxes = textboxes
 
-    def append_textbox(self, textbox: 'LoggingTextbox'):
+    def append_textbox(self, textbox: 'LoggingTextbox') -> None:
         """テキストボックスを追加する。"""
         self.textboxes.append(textbox)
 
-    def emit(self, record):
+    def emit(self, record: logging.LogRecord) -> None:
         """ロギング処理。"""
         record_formated = self.format(record)
         for textbox in self.textboxes:
@@ -25,9 +28,14 @@ class GuiHandler(logging.Handler):
 
 class LoggingTextbox(DCTextbox):
     """ロギング表示テキストボックス。"""
-    def __init__(self, master: Any, **kwargs):
+    def __init__(
+        self,
+        master: Any,
+        font: Optional[Union[Tuple[object], DCFont]] = None,
+        **kwargs: object
+    ):
         """コンストラクタ。"""
-        super().__init__(master, readonly=True, height=2160, wrap="none", **kwargs)  # NOTE: 高さを無限に設定できないのでさしあたって4Kサイズにしておく
+        super().__init__(master, font=font, readonly=True, height=2160, wrap="none", **kwargs)  # NOTE: 高さを無限に設定できないのでさしあたって4Kサイズにしておく
         logger = logging.getLogger("gui")
         for handler in logger.handlers:
             if isinstance(handler, GuiHandler):
