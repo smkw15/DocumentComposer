@@ -1,6 +1,8 @@
 """ラベル付きファイル拡張子選択用モジュール。"""
 import tkinter as tk
+
 from typing import Any
+
 from document_composer.gui.basic.dc_frame import DCFrame
 from document_composer.gui.basic.dc_label import DCLabel
 from document_composer.gui.basic.dc_combo_box import DCComboBox
@@ -21,20 +23,20 @@ class LabeledExtComboBox(DCFrame):
         self,
         master: Any,
         label_text: str,
-        value: Extension = None,
+        value: Extension | None = None,
         label_width: int = 0,
         label_height: int = 28,
-        font: DCFont = None
+        font: DCFont | None = None
     ):
         """コンストラクタ。
 
         Args:
             master (Any): マスター。
             label_text (str): ラベルに表示するテキスト。
-            value (Extension): 初期値。
+            value (Extension | None): 初期値。
             label_width (int): ラベルの幅。
             label_height (int): ラベルの高さ。
-            font (DcFont): フォント。
+            font (DcFont | None): フォント。
         """
         # フレーム設定
         super().__init__(master)
@@ -55,7 +57,7 @@ class LabeledExtComboBox(DCFrame):
         self.combo.set(value)
         self.combo.pack(side=tk.LEFT)
 
-    def get_value(self) -> Extension:
+    def get_value(self) -> Extension | Any:
         """選択されている値を取得する。
 
         Returns:

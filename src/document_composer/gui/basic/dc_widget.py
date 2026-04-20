@@ -1,6 +1,7 @@
 """独自ウィジット共通基盤モジュール。"""
 import customtkinter as ctk
 from abc import ABC
+
 from document_composer.gui.constants import AppearanceMode
 
 
@@ -9,7 +10,7 @@ class DCWidget(ABC):
     _appearance_mode: AppearanceMode = "system"
 
     @classmethod
-    def set_appearance_mode(cls, appearance_mode: AppearanceMode):
+    def set_appearance_mode(cls, appearance_mode: AppearanceMode) -> None:
         """アピアランスモード(テーマ)を切り替える。
 
         Args:

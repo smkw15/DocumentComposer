@@ -1,6 +1,7 @@
 """Txtデータモデルモジュール。"""
 import dataclasses
 import pathlib
+
 from document_composer.models.composable.base import Composable
 from document_composer.constants import Extension
 from document_composer.config import Config
@@ -13,7 +14,7 @@ from document_composer.util import (
 
 
 @dataclasses.dataclass
-class Txt(Composable):
+class Txt:
     """txtファイルを表すデータモデル。
 
     Attributes:
@@ -25,7 +26,7 @@ class Txt(Composable):
     config: Config
 
     @classmethod
-    def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Txt':
+    def new_file(cls, file_path: pathlib.Path, config: Config) -> Composable:
         """新しい空のインスタンスを生成する。
 
         Args:
@@ -63,7 +64,7 @@ class Txt(Composable):
         """
         return self.lines
 
-    def append_lines(self, lines: list[str]):
+    def append_lines(self, lines: list[str]) -> None:
         """ファイルコンテンツを追加する。
 
         Args:
@@ -71,7 +72,7 @@ class Txt(Composable):
         """
         self.lines.extend(lines)
 
-    def read_file(self):
+    def read_file(self) -> None:
         """ファイルを読み込む。"""
         with open(str(self.file_path), mode="r", encoding=self.config.encoding) as f:
             content = f.read()
@@ -80,7 +81,7 @@ class Txt(Composable):
             lines = split_to_lines(content)  # システム用の改行コードで分割
             self.append_lines(lines)
 
-    def write_file(self):
+    def write_file(self) -> None:
         """ファイルを書き込み。"""
         with open(str(self.file_path), mode="w", encoding=self.config.encoding, newline=self.config.newline_char_dest) as f:
             content = join_lines(self.get_lines())  # システム用の改行コードで結合

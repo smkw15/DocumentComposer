@@ -2,7 +2,9 @@
 import tkinter as tk
 import tkinter.filedialog
 import pathlib
-from typing import Any
+
+from typing import Any, Tuple
+
 from document_composer.gui.basic.dc_frame import DCFrame
 from document_composer.gui.basic.dc_label import DCLabel
 from document_composer.gui.basic.dc_entry import DCEntry
@@ -21,10 +23,10 @@ class LabeledFileEntry(DCFrame):
         master: Any,
         label_text: str,
         initial_path: str,
-        file_types: list[tuple[str]] = [("", "*")],
+        file_types: list[Tuple[str, str]] = [("", "*")],
         label_width: int = 0,
         label_height: int = 28,
-        font: DCFont = None
+        font: DCFont | None = None
     ):
         """コンストラクタ。
 
@@ -32,10 +34,10 @@ class LabeledFileEntry(DCFrame):
             master (Any): マスター。
             label_text (str): ラベルに表示するテキスト。
             initial_path (str): パス指定する時の初期位置。
-            file_types (list[tuple[str]]): パス指定する時のファイルの種類。
+            file_types (list[Tuple[str, str]]): パス指定する時のファイルの種類。
             label_width (int): ラベルの幅。
             label_height (int): ラベルの高さ。
-            font (DcFont): フォント。
+            font (DcFont | None): フォント。
         """
         # フレーム設定
         super().__init__(master)
@@ -61,7 +63,7 @@ class LabeledFileEntry(DCFrame):
             width=60)
         self.button.pack(side=tk.LEFT, padx=5)
 
-    def get_value(self) -> str:
+    def get_value(self) -> str | Any:
         """入力値を取得する。
 
         Returns:
@@ -69,7 +71,7 @@ class LabeledFileEntry(DCFrame):
         """
         return self.entry.get()
 
-    def _on_click_button(self):
+    def _on_click_button(self) -> None:
         path = tkinter.filedialog.askopenfilename(
             initialdir=pathlib.Path(self.initial_path).parent.resolve(),
             initialfile=pathlib.Path(self.initial_path).name,

@@ -1,15 +1,17 @@
 """Composerインターフェースモジュール。"""
 import pathlib
-from abc import ABCMeta, abstractmethod
+
+from typing import Protocol, runtime_checkable
+
 from document_composer.constants import Extension
 from document_composer.config import Config
 
 
-class Composable(metaclass=ABCMeta):
+@runtime_checkable
+class Composable(Protocol):
     """Composerインターフェース。"""
 
     @classmethod
-    @abstractmethod
     def new_file(cls, file_path: pathlib.Path, config: Config) -> 'Composable':
         """新しい空のインスタンスを生成する。
 
@@ -23,7 +25,6 @@ class Composable(metaclass=ABCMeta):
         pass
 
     @classmethod
-    @abstractmethod
     def get_extension(cls) -> Extension:
         """拡張子を取得する。
 
@@ -32,7 +33,6 @@ class Composable(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
     def get_file_path(self) -> pathlib.Path:
         """ファイルのパスを取得する。
 
@@ -41,7 +41,6 @@ class Composable(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
     def get_lines(self) -> list[str]:
         """ファイルコンテンツを取得する。
 
@@ -50,8 +49,7 @@ class Composable(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
-    def append_lines(self, lines: list[str]):
+    def append_lines(self, lines: list[str]) -> None:
         """ファイルコンテンツを追加する。
 
         Args:
@@ -59,12 +57,10 @@ class Composable(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
-    def read_file(self):
+    def read_file(self) -> None:
         """ファイルを読み込む。"""
         pass
 
-    @abstractmethod
-    def write_file(self):
+    def write_file(self) -> None:
         """ファイルを書き込み。"""
         pass

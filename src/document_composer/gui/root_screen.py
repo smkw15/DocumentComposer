@@ -4,6 +4,9 @@ import dataclasses
 import yaml
 import pathlib
 import platform
+
+from typing import Any, Dict
+
 from document_composer.gui.constants import (
     ROOT_SCREEN_TITLE,
     ROOT_SCREEN_WIDTH,
@@ -98,7 +101,7 @@ class RootScreenModel:
             verbose=d.get("verbose", VERBOSE)
         )
 
-    def dump_yml(self, model_file_path: str = SCREEN_FILE_PATH):
+    def dump_yml(self, model_file_path: str = SCREEN_FILE_PATH) -> None:
         """YAMLファイルにインスタンスをダンプする。
 
         Args:
@@ -107,11 +110,11 @@ class RootScreenModel:
         with open(model_file_path, mode="w", encoding=ENCODING) as f:
             yaml.dump(self.to_dict(), f, Dumper=ScreenDumper, sort_keys=False)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Any]:
         """インスタンスを辞書に変換する。
 
         Returns:
-            dict: 辞書。
+            Dict: 辞書。
         """
         return {
             "src_dir_path": self.src_dir_path,
@@ -142,7 +145,7 @@ class RootScreen(DCScreen):
         if platform.system() == "Windows":
             self.iconbitmap(str(ICON_PATH_ICO))
         else:
-            self.icon_photo_image = tk.PhotoImage(file=ICON_PATH_PNG)
+            self.icon_photo_image = tk.PhotoImage(file=str(ICON_PATH_PNG))
             self.wm_iconphoto(False, self.icon_photo_image)
         # ボディ領域フレーム
         self.frame_body = DCFrame(self)
@@ -204,7 +207,7 @@ class RootScreen(DCScreen):
         self.textbox_logging = LoggingTextbox(master=self.frame_submit)
         self.textbox_logging.pack(side=tk.LEFT, anchor=tk.N, padx=5, expand=True, fill="both")
 
-    def _on_click_button_submit(self):
+    def _on_click_button_submit(self) -> None:
         # ユーザ設定値をモデルに抽出
         self.model.src_dir_path = self.entry_src_dir.get_value()
         self.model.src_file_ext = self.combo_src_ext.get_value()
@@ -221,12 +224,12 @@ class RootScreen(DCScreen):
             self.model.verbose,
             "gui")
 
-    def _on_closing(self):
+    def _on_closing(self) -> None:
         self.model.dump_yml()  # モデルをファイルに保存
         self.destroy()  # 閉じる処理を明示的に呼ばないと閉じない
 
 
-def exec_composer_with_gui():
+def exec_composer_with_gui() -> None:
     """ルートウィンドウを表示する。"""
     model = RootScreenModel.from_yml()
     root = RootScreen(model)

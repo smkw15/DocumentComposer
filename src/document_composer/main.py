@@ -6,6 +6,7 @@ import yaml
 import logging
 import logging.config
 import pathlib
+
 from document_composer.constants import (
     ENCODING,
     SRC_ROOT_DIR_PATH,
@@ -27,7 +28,7 @@ class LoggingLoader(yaml.SafeLoader):
     pass
 
 
-def initialize_logging():
+def initialize_logging() -> None:
     """ロギングの初期化を行う。"""
     # ファイルハンドラー用の出力先を用意
     logging_dir_path = pathlib.Path(LOGGING_DIR)
@@ -96,7 +97,7 @@ def parse_args() -> ArgParams:
         ui=args.ui)
 
 
-def main():
+def main() -> None:
     """メイン処理"""
     # ロギング初期化
     initialize_logging()

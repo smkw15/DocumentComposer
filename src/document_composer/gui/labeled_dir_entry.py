@@ -2,7 +2,9 @@
 import tkinter as tk
 import tkinter.filedialog
 import pathlib
+
 from typing import Any
+
 from document_composer.gui.basic.dc_frame import DCFrame
 from document_composer.gui.basic.dc_label import DCLabel
 from document_composer.gui.basic.dc_entry import DCEntry
@@ -23,7 +25,7 @@ class LabeledDirEntry(DCFrame):
         initial_path: str,
         label_width: int = 0,
         label_height: int = 28,
-        font: DCFont = None
+        font: DCFont | None = None
     ):
         """コンストラクタ。
 
@@ -33,7 +35,7 @@ class LabeledDirEntry(DCFrame):
             initial_path (str): パス指定する時の初期位置。
             label_width (int): ラベルの幅。
             label_height (int): ラベルの高さ。
-            font (DcFont): フォント。
+            font (DcFont | None): フォント。
         """
         # フレーム設定
         super().__init__(master)
@@ -58,7 +60,7 @@ class LabeledDirEntry(DCFrame):
             width=60)
         self.button.pack(side=tk.LEFT, padx=5)
 
-    def get_value(self) -> str:
+    def get_value(self) -> str | Any:
         """入力値を取得する。
 
         Returns:
@@ -66,7 +68,7 @@ class LabeledDirEntry(DCFrame):
         """
         return self.entry.get()
 
-    def _on_click_button(self):
+    def _on_click_button(self) -> None:
         path = tkinter.filedialog.askdirectory(
             mustexist=True,
             initialdir=pathlib.Path(self.initial_path).resolve())

@@ -1,7 +1,10 @@
 """構成情報モジュール。"""
 import dataclasses
+from typing import Any, Dict
+
 import yaml
 import pathlib
+
 from document_composer.constants import (
     IGNORANTS,
     DEST_ROOT_FILE_NICKNAME,
@@ -76,7 +79,7 @@ class Config:
     newline_code_dest: NewlineCode
 
     @property
-    def ignorants_as_str(self) -> pathlib.Path:
+    def ignorants_as_str(self) -> list[pathlib.Path]:
         """イグノアリストを絶対パスの文字列として取得する。
 
         Returns:
@@ -119,7 +122,7 @@ class Config:
         return cls.from_dict(d)
 
     @classmethod
-    def from_dict(cls, d: dict) -> 'Config':
+    def from_dict(cls, d: Dict[str, Any]) -> 'Config':
         """辞書からインスタンスを生成する。
 
         Args:
@@ -148,7 +151,7 @@ class Config:
             newline_code_dest=d.get("newline_code_dest", NEWLINE_CODE_DEST),
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """インスタンスの文字列表現を返却する。
 
         Returns:

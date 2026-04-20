@@ -3,7 +3,9 @@ import os
 import pathlib
 import shutil
 import logging
-from typing import Type, TypeVar
+
+from typing import Any, Dict, Mapping, Type
+
 from document_composer.models.composable.base import Composable
 from document_composer.models.composable.docx import Docx
 from document_composer.models.composable.txt import Txt
@@ -14,14 +16,11 @@ from document_composer.constants import (
     LoggerName
 )
 
-S = TypeVar("S", bound=Composable)
-D = TypeVar("D", bound=Composable)
-
 
 class Composer:
     """コンポーザー。"""
 
-    def __init__(self, config: Config, logger: logging.Logger = None):
+    def __init__(self, config: Config, logger: logging.Logger | None = None):
         """コンストラクタ。
 
         Args:
@@ -29,10 +28,10 @@ class Composer:
             logger (logging.Logger): ロガー。
         """
         self.config: Config = config
-        self.logger: logging.Logger = logger
+        self.logger: logging.Logger | None = logger
 
     @classmethod
-    def from_dict(cls, d: dict, logger: logging.Logger = None) -> 'Composer':
+    def from_dict(cls, d: Dict[str, Any], logger: logging.Logger | None = None) -> 'Composer':
         """辞書からインスタンスを生成する。
 
         Args:
@@ -45,7 +44,7 @@ class Composer:
         return cls(Config.from_dict(d), logger=logger)
 
     @classmethod
-    def from_yml(cls, config_file_path: str = CONFIG_FILE_PATH, logger: logging.Logger = None) -> 'Composer':
+    def from_yml(cls, config_file_path: str = CONFIG_FILE_PATH, logger: logging.Logger | None = None) -> 'Composer':
         """YAMLファイルからインスタンスを生成する。
 
         Args:
@@ -62,20 +61,20 @@ class Composer:
         src_root_dir_path: pathlib.Path,
         dest_root_dir_path: pathlib.Path,
         can_remove: bool,
-        src_type: Type[S],
-        dest_type: Type[D]
-    ) -> list[tuple[list[Composable], Composable]]:
+        src_type: Type[Composable],
+        dest_type: Type[Composable]
+    ) -> list[tuple[list[Composable], Composable | None]]:
         """コンポーズの冗長実行を行う。
 
         Args:
             src_root_dir_path (pathlib.Path): 入力元ルートディレクトリ。入力元の最も上層のディレクトリ。
             dest_root_dir_path (pathlib.Path): 出力先ルートディレクトリ。出力先の最も上層のディレクトリ。
             can_remove (bool): 削除フラグ。出力先ディレクトリの削除可否。
-            src_type (Type[S]): 入力ファイルのファイル形式を示す型引数。
-            dest_type (Type[D]): 出力ファイルのファイル形式を示す型引数。
+            src_type (Type[Composable]): 入力ファイルのファイル形式を示す型引数。
+            dest_type (Type[Composable]): 出力ファイルのファイル形式を示す型引数。
 
         Returns:
-            list[tuple[list[Composable], Composable]]: 入力ファイル群と出力ファイルの組み合わせのリスト。
+            list[tuple[list[Composable], Composable | None]]: 入力ファイル群と出力ファイルの組み合わせのリスト。
         """
         ret = []
         # 出力先ディレクトリをセット
@@ -105,20 +104,20 @@ class Composer:
         src_dir_path: pathlib.Path,
         dest_file_path: pathlib.Path,
         can_remove: bool,
-        src_type: Type[S],
-        dest_type: Type[D]
-    ) -> tuple[list[Composable], Composable]:
+        src_type: Type[Composable],
+        dest_type: Type[Composable]
+    ) -> tuple[list[Composable], Composable | None]:
         """コンポーズを実行する。
 
         Args:
             src_dir_path (pathlib.Path): 入力元ディレクリのパス。
             dest_file_path (pathlib.Path): 出力ファイルのパス。
             can_remove (bool): 削除フラグ。出力先ディレクトリの削除可否。
-            src_type (Type[S]): 入力ファイルのファイル形式を示す型引数。
-            dest_type (Type[D]): 出力ファイルのファイル形式を示す型引数。
+            src_type (Type[Composable]): 入力ファイルのファイル形式を示す型引数。
+            dest_type (Type[Composable]): 出力ファイルのファイル形式を示す型引数。
 
         Returns:
-            tuple[list[Composable], Composable]: 入力ファイル群と出力ファイルの組み合わせ。
+            tuple[list[Composable], Composable | None]: 入力ファイル群と出力ファイルの組み合わせ。
         """
         # ファイル検索
         src_file_pathes = self._find_pathes(src_dir_path, "*." + src_type.get_extension(), self.config.ignorants)
@@ -152,7 +151,7 @@ class Composer:
     def _read_files(
         self,
         src_file_pathes: list[pathlib.Path],
-        src_type: Type[S]
+        src_type: Type[Composable]
     ) -> list[Composable]:
         ret = []
         for src_file_path in src_file_pathes:
@@ -173,7 +172,7 @@ class Composer:
                 dest_files.append_lines(self.config.file_separator)
         return dest_files
 
-    def _reset_dest_dir(self, dest_dir_path: pathlib.Path, can_remove: bool):
+    def _reset_dest_dir(self, dest_dir_path: pathlib.Path, can_remove: bool) -> None:
         if can_remove and dest_dir_path.exists():
             shutil.rmtree(str(dest_dir_path))
             self._log(f"Removed: {dest_dir_path}", logging.WARN)
@@ -181,17 +180,30 @@ class Composer:
             dest_dir_path.mkdir(parents=True)
             self._log(f"Created: {dest_dir_path}")
 
-    def _log(self, s: str, level: int = logging.INFO, *args, **kwargs):
+    def _log(
+        self,
+        msg: str,
+        level: int = logging.INFO,
+        args: Any = None,
+        exc_info: Any = None,
+        extra: Mapping[str, object] | None = None,
+        stack_info: bool = False,
+        stacklevel: int = 1,
+    ) -> None:
         if self.logger is None:
-            print(s)
+            print(msg)
         else:
-            self.logger._log(level, s, args, **kwargs)
+            self.logger._log(
+                level=level,
+                msg=msg,
+                args=args,
+                exc_info=exc_info,
+                extra=extra,
+                stack_info=stack_info,
+                stacklevel=stacklevel)
 
 
-T = TypeVar("T", bound=Composable)
-
-
-def get_composable_type(ext: Extension) -> Type[T]:
+def get_composable_type(ext: Extension) -> Type[Composable]:
     """ファイル種別からComposableの型情報を取得する。
 
     Args:
@@ -217,7 +229,7 @@ def exec_composer(
     dest_file_ext: Extension,
     verbose: bool,
     logger_name: LoggerName
-):
+) -> None:
     """コンポーザーを実行する。
 
     Args:
@@ -230,8 +242,8 @@ def exec_composer(
         logger_name (LoggerName): ロガー名。
     """
     # 入出力対象の型を取得
-    src_type: Type[T] = get_composable_type(src_file_ext)
-    dest_type: Type[T] = get_composable_type(dest_file_ext)
+    src_type: Type[Composable] = get_composable_type(src_file_ext)
+    dest_type: Type[Composable] = get_composable_type(dest_file_ext)
     # コンポーザー生成
     composer = Composer.from_yml(config_file_path, logging.getLogger(logger_name))
     if verbose:
